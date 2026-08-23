@@ -680,20 +680,62 @@ function heartBurst(amount = 25) {
 // MUSIC
 // ========================================
 
-const musicInput =
-    document.getElementById("musicInput");
-
 const music =
     document.getElementById("music");
 
 const musicButton =
     document.getElementById("musicButton");
 
-const removeMusicButton =
-    document.getElementById("removeMusicButton");
+let musicStarted = false;
 
 
-let musicLoaded = false;
+// ========================================
+// START MUSIC
+// ========================================
+
+function startMusic() {
+
+    music.volume = 0.7;
+
+    music.loop = true;
+
+    music.play()
+        .then(function () {
+
+            musicStarted = true;
+
+            if (musicButton) {
+                musicButton.innerText = "🔊 Playing";
+            }
+
+        })
+        .catch(function (error) {
+
+            console.log("Autoplay blocked:", error);
+
+        });
+}
+
+
+// ========================================
+// ENTER BUTTON
+// ========================================
+
+document
+    .getElementById("loginButton")
+    .addEventListener("click", function () {
+
+        login();
+
+        // User clicked the button,
+        // so browser allows audio playback.
+        setTimeout(function () {
+
+            startMusic();
+
+        }, 300);
+
+    });
 
 
 // ========================================
@@ -704,214 +746,24 @@ musicButton.addEventListener(
     "click",
     function () {
 
-        // If no music is loaded
-        if (!musicLoaded) {
-
-            // Only Wolfixe can upload music
-            if (editMode) {
-
-                musicInput.click();
-
-            } else {
-
-                // Use GitHub music if available
-                loadDefaultMusic();
-
-            }
-
-            return;
-
-        }
-
-
         if (music.paused) {
 
-            music.play()
-                .then(function () {
-
-                    musicButton.innerText =
-                        "🔊 Playing";
-
-                })
-                .catch(function () {
-
-                    musicButton.innerText =
-                        "🎵 Music";
-
-                });
-
-        }
-
-        else {
-
-            music.pause();
-
-            musicButton.innerText =
-                "🔇 Paused";
-
-        }
-
-    }
-);
-
-
-// ========================================
-// ADD MUSIC
-// ========================================
-
-musicInput.addEventListener(
-    "change",
-    function (event) {
-
-        if (!editMode) {
-
-            musicInput.value = "";
-
-            return;
-
-        }
-
-
-        const file =
-            event.target.files[0];
-
-
-        if (!file) {
-            return;
-        }
-
-
-        const musicURL =
-            URL.createObjectURL(file);
-
-
-        music.src = musicURL;
-
-
-        musicLoaded = true;
-
-
-        music.play()
-            .then(function () {
-
-                musicButton.innerText =
-                    "🔊 Playing";
-
-            })
-            .catch(function () {
-
-                musicButton.innerText =
-                    "🎵 Music";
-
-            });
-
-    }
-);
-
-
-// ========================================
-// REMOVE MUSIC
-// ========================================
-
-removeMusicButton.addEventListener(
-    "click",
-    function () {
-
-        if (!editMode) {
-            return;
-        }
-
-
-        music.pause();
-
-
-        music.removeAttribute("src");
-
-        music.load();
-
-
-        musicLoaded = false;
-
-
-        musicButton.innerText =
-            "🎵 Music";
-
-
-        musicInput.value = "";
-
-    }
-);
-
-
-// ========================================
-// DEFAULT GITHUB MUSIC
-// ========================================
-
-function loadDefaultMusic() {
-
-    music.src =
-        "audio/birthday.mp3";
-
-
-    musicLoaded = true;
-
-
-    music.play()
-        .then(function () {
+            music.play();
 
             musicButton.innerText =
                 "🔊 Playing";
 
-        })
-        .catch(function () {
+        } else {
+
+            music.pause();
 
             musicButton.innerText =
-                "🎵 Music";
+                "🔇 Muted";
 
-        });
-
-}
-
-
-// ========================================
-// START MUSIC
-// ========================================
-
-function tryStartMusic() {
-
-    // Don't force autoplay.
-    // Browser autoplay policies may block it.
-
-    loadDefaultMusic();
-
-}
-
-
-function startMusicIfAvailable() {
-
-    if (!musicLoaded) {
-
-        loadDefaultMusic();
-
-        return;
+        }
 
     }
-
-
-    if (music.paused) {
-
-        music.play()
-            .then(function () {
-
-                musicButton.innerText =
-                    "🔊 Playing";
-
-            })
-            .catch(function () {});
-
-    }
-
-}
+);
 
 
 // ========================================
