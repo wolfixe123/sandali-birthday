@@ -30,12 +30,11 @@ const loginButton = document.getElementById("loginButton");
 const usernameInput = document.getElementById("usernameInput");
 const loginError = document.getElementById("loginError");
 
-loginButton.addEventListener("click", login);
-
 usernameInput.addEventListener("keydown", function (event) {
 
     if (event.key === "Enter") {
         login();
+        startMusic();
     }
 
 });
@@ -88,9 +87,6 @@ function login() {
     loginError.innerText = "";
 
     showScene("intro");
-
-    // Start gentle music attempt after user interaction
-    tryStartMusic();
 
 }
 
@@ -224,8 +220,6 @@ document
         showScene("birthday");
 
         heartBurst(30);
-
-        startMusicIfAvailable();
 
     });
 
@@ -695,6 +689,10 @@ let musicStarted = false;
 
 function startMusic() {
 
+    if (musicStarted) {
+        return;
+    }
+
     music.volume = 0.7;
 
     music.loop = true;
@@ -719,23 +717,20 @@ function startMusic() {
 
 // ========================================
 // ENTER BUTTON
+// (single listener - calls login then
+// immediately tries to start music,
+// synchronously, inside the click handler,
+// so the browser treats it as a valid
+// user gesture for autoplay)
 // ========================================
 
-document
-    .getElementById("loginButton")
-    .addEventListener("click", function () {
+loginButton.addEventListener("click", function () {
 
-        login();
+    login();
 
-        // User clicked the button,
-        // so browser allows audio playback.
-        setTimeout(function () {
+    startMusic();
 
-            startMusic();
-
-        }, 300);
-
-    });
+});
 
 
 // ========================================
@@ -749,6 +744,8 @@ musicButton.addEventListener(
         if (music.paused) {
 
             music.play();
+
+            musicStarted = true;
 
             musicButton.innerText =
                 "🔊 Playing";
@@ -792,25 +789,23 @@ document.addEventListener(
 
             event.preventDefault();
 
-            if (musicLoaded) {
+            if (music.paused) {
 
-                if (music.paused) {
+                music.play();
 
-                    music.play();
+                musicStarted = true;
 
-                    musicButton.innerText =
-                        "🔊 Playing";
+                musicButton.innerText =
+                    "🔊 Playing";
 
-                }
+            }
 
-                else {
+            else {
 
-                    music.pause();
+                music.pause();
 
-                    musicButton.innerText =
-                        "🔇 Paused";
-
-                }
+                musicButton.innerText =
+                    "🔇 Paused";
 
             }
 
