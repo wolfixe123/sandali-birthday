@@ -1,5 +1,6 @@
 // ========================================
-// BIRTHDAY WEBSITE
+// SANDALI BIRTHDAY WEBSITE
+// MAIN JAVASCRIPT
 // ========================================
 
 
@@ -10,7 +11,6 @@
 const EDIT_USERNAME = "Wolfixe";
 
 let currentUser = "";
-
 let editMode = false;
 
 
@@ -18,63 +18,51 @@ let editMode = false;
 // ELEMENTS
 // ========================================
 
-const scenes =
-    document.querySelectorAll(".scene");
-
-const hearts =
-    document.getElementById("hearts");
+const scenes = document.querySelectorAll(".scene");
+const hearts = document.getElementById("hearts");
 
 
 // ========================================
 // LOGIN
 // ========================================
 
-document
-    .getElementById("loginButton")
-    .addEventListener("click", login);
+const loginButton = document.getElementById("loginButton");
+const usernameInput = document.getElementById("usernameInput");
+const loginError = document.getElementById("loginError");
 
+loginButton.addEventListener("click", login);
 
-document
-    .getElementById("usernameInput")
-    .addEventListener("keydown", function(event) {
+usernameInput.addEventListener("keydown", function (event) {
 
-        if (event.key === "Enter") {
+    if (event.key === "Enter") {
+        login();
+    }
 
-            login();
-
-        }
-
-    });
+});
 
 
 function login() {
 
-    const input =
-        document
-            .getElementById("usernameInput")
-            .value
-            .trim();
+    const username = usernameInput.value.trim();
 
+    if (username === "") {
 
-    const error =
-        document.getElementById("loginError");
-
-
-    if (input === "") {
-
-        error.innerText =
+        loginError.innerText =
             "Username එක දාන්න ❤️";
 
         return;
-
     }
 
 
-    currentUser = input;
+    currentUser = username;
 
+
+    // ========================================
+    // WOLFIXE = EDITOR
+    // ========================================
 
     if (
-        input.toLowerCase() ===
+        username.toLowerCase() ===
         EDIT_USERNAME.toLowerCase()
     ) {
 
@@ -82,7 +70,13 @@ function login() {
 
         enableEditMode();
 
-    } else {
+    }
+
+    // ========================================
+    // EVERYONE ELSE = VIEWER
+    // ========================================
+
+    else {
 
         editMode = false;
 
@@ -91,9 +85,12 @@ function login() {
     }
 
 
-    error.innerText = "";
+    loginError.innerText = "";
 
     showScene("intro");
+
+    // Start gentle music attempt after user interaction
+    tryStartMusic();
 
 }
 
@@ -105,69 +102,82 @@ function login() {
 function enableEditMode() {
 
     const letter =
-        document.getElementById(
-            "letterText"
-        );
+        document.getElementById("letterText");
+
+    const editControls =
+        document.getElementById("editControls");
+
+    const photoUploadBox =
+        document.getElementById("photoUploadBox");
+
+    const musicControls =
+        document.getElementById("musicControls");
 
 
-    letter.contentEditable =
-        "true";
+    // Allow letter editing
+    letter.contentEditable = "true";
 
 
-    document
-        .getElementById("editControls")
-        .classList.remove("hidden");
+    // Show editing controls
+    editControls.classList.remove("hidden");
+
+    photoUploadBox.classList.remove("hidden");
+
+    musicControls.classList.remove("hidden");
 
 
-    document
-        .getElementById("photoUploadBox")
-        .classList.remove("hidden");
-
-
-    document
-        .getElementById("musicControls")
-        .classList.remove("hidden");
-
-
+    // Load saved letter
     loadSavedLetter();
 
 }
 
+
+// ========================================
+// VIEWER MODE
+// ========================================
 
 function disableEditMode() {
 
     const letter =
-        document.getElementById(
-            "letterText"
-        );
+        document.getElementById("letterText");
+
+    const editControls =
+        document.getElementById("editControls");
+
+    const photoUploadBox =
+        document.getElementById("photoUploadBox");
+
+    const musicControls =
+        document.getElementById("musicControls");
 
 
-    letter.contentEditable =
-        "false";
+    // Disable letter editing
+    letter.contentEditable = "false";
 
 
-    document
-        .getElementById("editControls")
-        .classList.add("hidden");
+    // Hide editor controls
+    editControls.classList.add("hidden");
+
+    photoUploadBox.classList.add("hidden");
 
 
-    document
-        .getElementById("musicControls")
-        .classList.remove("hidden");
+    // Music control can remain visible
+    musicControls.classList.remove("hidden");
 
 
+    // Load saved letter
     loadSavedLetter();
 
 }
 
 
 // ========================================
-// SCENE CHANGE
+// SCENE SYSTEM
 // ========================================
 
 function showScene(id) {
 
-    scenes.forEach(function(scene) {
+    scenes.forEach(function (scene) {
 
         scene.classList.remove("active");
 
@@ -178,26 +188,44 @@ function showScene(id) {
         document.getElementById(id);
 
 
-    if (target) {
-
-        target.classList.add("active");
-
+    if (!target) {
+        return;
     }
+
+
+    target.classList.add("active");
+
+
+    // Scroll to top
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+
+    // Small heart effect on page change
+    setTimeout(function () {
+
+        heartBurst(8);
+
+    }, 350);
 
 }
 
 
 // ========================================
-// START
+// INTRO
 // ========================================
 
 document
     .getElementById("startButton")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
 
         showScene("birthday");
 
-        heartBurst();
+        heartBurst(30);
+
+        startMusicIfAvailable();
 
     });
 
@@ -208,7 +236,7 @@ document
 
 document
     .getElementById("memoriesButton")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
 
         showScene("memories");
 
@@ -216,12 +244,12 @@ document
 
 
 // ========================================
-// LETTER
+// MEMORIES → LETTER
 // ========================================
 
 document
     .getElementById("letterButton")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
 
         showScene("letter");
 
@@ -229,12 +257,12 @@ document
 
 
 // ========================================
-// SECRET
+// LETTER → SECRET
 // ========================================
 
 document
     .getElementById("secretButton")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
 
         showScene("secret");
 
@@ -247,13 +275,16 @@ document
 
 document
     .getElementById("revealButton")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
 
-        document
-            .getElementById("finalMessage")
-            .classList.add("show");
+        const finalMessage =
+            document.getElementById("finalMessage");
 
-        heartBurst();
+
+        finalMessage.classList.add("show");
+
+
+        heartBurst(45);
 
     });
 
@@ -263,41 +294,34 @@ document
 // ========================================
 
 const photoInput =
-    document.getElementById(
-        "photoInput"
-    );
-
+    document.getElementById("photoInput");
 
 const gallery =
-    document.getElementById(
-        "gallery"
-    );
+    document.getElementById("gallery");
 
 
 photoInput.addEventListener(
     "change",
-    function(event) {
+    function (event) {
+
+        // Only Wolfixe can upload
+        if (!editMode) {
+
+            photoInput.value = "";
+
+            return;
+
+        }
+
 
         const files =
-            event.target.files;
+            Array.from(event.target.files);
 
 
-        for (
-            let i = 0;
-            i < files.length;
-            i++
-        ) {
+        files.forEach(function (file) {
 
-            const file =
-                files[i];
-
-
-            if (
-                !file.type.startsWith("image/")
-            ) {
-
-                continue;
-
+            if (!file.type.startsWith("image/")) {
+                return;
             }
 
 
@@ -306,7 +330,7 @@ photoInput.addEventListener(
 
 
             reader.onload =
-                function(e) {
+                function (e) {
 
                     createPhoto(
                         e.target.result
@@ -317,7 +341,11 @@ photoInput.addEventListener(
 
             reader.readAsDataURL(file);
 
-        }
+        });
+
+
+        // Allow selecting the same file again
+        photoInput.value = "";
 
     }
 );
@@ -333,36 +361,52 @@ function createPhoto(imageURL) {
         document.createElement("div");
 
 
-    card.className =
-        "photo-card";
+    card.className = "photo-card";
 
 
     const image =
         document.createElement("img");
 
 
-    image.src =
-        imageURL;
+    image.src = imageURL;
 
-
-    image.alt =
-        "Memory";
+    image.alt = "Sandali memory";
 
 
     card.appendChild(image);
 
-
     gallery.appendChild(card);
 
 
+    // Open full screen viewer
     card.addEventListener(
         "click",
-        function() {
+        function () {
 
             openPhoto(imageURL);
 
         }
     );
+
+
+    // Small reveal animation
+    card.style.opacity = "0";
+
+    card.style.transform =
+        "translateY(20px) scale(.95)";
+
+
+    requestAnimationFrame(function () {
+
+        card.style.transition =
+            "opacity .6s ease, transform .6s ease";
+
+        card.style.opacity = "1";
+
+        card.style.transform =
+            "translateY(0) scale(1)";
+
+    });
 
 }
 
@@ -372,21 +416,15 @@ function createPhoto(imageURL) {
 // ========================================
 
 const viewer =
-    document.getElementById(
-        "photoViewer"
-    );
-
+    document.getElementById("photoViewer");
 
 const viewerImage =
-    document.getElementById(
-        "viewerImage"
-    );
+    document.getElementById("viewerImage");
 
 
 function openPhoto(imageURL) {
 
-    viewerImage.src =
-        imageURL;
+    viewerImage.src = imageURL;
 
     viewer.classList.add("show");
 
@@ -395,26 +433,43 @@ function openPhoto(imageURL) {
 
 document
     .getElementById("closeViewer")
-    .addEventListener("click", function() {
+    .addEventListener("click", closePhotoViewer);
 
-        viewer.classList.remove(
-            "show"
-        );
 
-    });
+function closePhotoViewer() {
+
+    viewer.classList.remove("show");
+
+    viewerImage.src = "";
+
+}
 
 
 viewer.addEventListener(
     "click",
-    function(event) {
+    function (event) {
+
+        if (event.target === viewer) {
+
+            closePhotoViewer();
+
+        }
+
+    }
+);
+
+
+// ESC closes photo viewer
+document.addEventListener(
+    "keydown",
+    function (event) {
 
         if (
-            event.target === viewer
+            event.key === "Escape" &&
+            viewer.classList.contains("show")
         ) {
 
-            viewer.classList.remove(
-                "show"
-            );
+            closePhotoViewer();
 
         }
 
@@ -428,7 +483,7 @@ viewer.addEventListener(
 
 document
     .getElementById("saveLetterButton")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
 
         if (!editMode) {
 
@@ -438,9 +493,7 @@ document
 
 
         const letter =
-            document.getElementById(
-                "letterText"
-            );
+            document.getElementById("letterText");
 
 
         localStorage.setItem(
@@ -449,15 +502,29 @@ document
         );
 
 
-        alert(
-            "Letter saved successfully ❤️"
-        );
+        // Visual feedback
+        const button = this;
+
+        const originalText =
+            button.innerText;
+
+
+        button.innerText =
+            "✓ Saved ❤️";
+
+
+        setTimeout(function () {
+
+            button.innerText =
+                originalText;
+
+        }, 2000);
 
     });
 
 
 // ========================================
-// LOAD LETTER
+// LOAD SAVED LETTER
 // ========================================
 
 function loadSavedLetter() {
@@ -469,9 +536,7 @@ function loadSavedLetter() {
 
 
     if (!savedLetter) {
-
         return;
-
     }
 
 
@@ -484,7 +549,7 @@ function loadSavedLetter() {
 
 
 // ========================================
-// FLOATING HEART
+// FLOATING HEARTS
 // ========================================
 
 function createHeart() {
@@ -493,8 +558,7 @@ function createHeart() {
         document.createElement("div");
 
 
-    heart.className =
-        "heart";
+    heart.className = "heart";
 
 
     const symbols = [
@@ -502,7 +566,8 @@ function createHeart() {
         "💗",
         "💖",
         "💕",
-        "💓"
+        "💓",
+        "✨"
     ];
 
 
@@ -536,7 +601,7 @@ function createHeart() {
     hearts.appendChild(heart);
 
 
-    setTimeout(function() {
+    setTimeout(function () {
 
         heart.remove();
 
@@ -555,11 +620,11 @@ setInterval(
 // HEART BURST
 // ========================================
 
-function heartBurst() {
+function heartBurst(amount = 25) {
 
     for (
         let i = 0;
-        i < 35;
+        i < amount;
         i++
     ) {
 
@@ -567,12 +632,9 @@ function heartBurst() {
             document.createElement("div");
 
 
-        heart.className =
-            "heart";
+        heart.className = "heart";
 
-
-        heart.innerText =
-            "❤️";
+        heart.innerText = "❤️";
 
 
         heart.style.left =
@@ -603,7 +665,7 @@ function heartBurst() {
         hearts.appendChild(heart);
 
 
-        setTimeout(function() {
+        setTimeout(function () {
 
             heart.remove();
 
@@ -619,39 +681,43 @@ function heartBurst() {
 // ========================================
 
 const musicInput =
-    document.getElementById(
-        "musicInput"
-    );
-
+    document.getElementById("musicInput");
 
 const music =
-    document.getElementById(
-        "music"
-    );
-
+    document.getElementById("music");
 
 const musicButton =
-    document.getElementById(
-        "musicButton"
-    );
-
+    document.getElementById("musicButton");
 
 const removeMusicButton =
-    document.getElementById(
-        "removeMusicButton"
-    );
+    document.getElementById("removeMusicButton");
 
 
 let musicLoaded = false;
 
 
+// ========================================
+// MUSIC BUTTON
+// ========================================
+
 musicButton.addEventListener(
     "click",
-    function() {
+    function () {
 
+        // If no music is loaded
         if (!musicLoaded) {
 
-            musicInput.click();
+            // Only Wolfixe can upload music
+            if (editMode) {
+
+                musicInput.click();
+
+            } else {
+
+                // Use GitHub music if available
+                loadDefaultMusic();
+
+            }
 
             return;
 
@@ -660,17 +726,28 @@ musicButton.addEventListener(
 
         if (music.paused) {
 
-            music.play();
+            music.play()
+                .then(function () {
 
-            musicButton.innerText =
-                "🔊 Playing";
+                    musicButton.innerText =
+                        "🔊 Playing";
 
-        } else {
+                })
+                .catch(function () {
+
+                    musicButton.innerText =
+                        "🎵 Music";
+
+                });
+
+        }
+
+        else {
 
             music.pause();
 
             musicButton.innerText =
-                "🔇 Muted";
+                "🔇 Paused";
 
         }
 
@@ -684,9 +761,11 @@ musicButton.addEventListener(
 
 musicInput.addEventListener(
     "change",
-    function(event) {
+    function (event) {
 
         if (!editMode) {
+
+            musicInput.value = "";
 
             return;
 
@@ -698,9 +777,7 @@ musicInput.addEventListener(
 
 
         if (!file) {
-
             return;
-
         }
 
 
@@ -708,19 +785,25 @@ musicInput.addEventListener(
             URL.createObjectURL(file);
 
 
-        music.src =
-            musicURL;
+        music.src = musicURL;
 
 
-        musicLoaded =
-            true;
+        musicLoaded = true;
 
 
-        music.play();
+        music.play()
+            .then(function () {
 
+                musicButton.innerText =
+                    "🔊 Playing";
 
-        musicButton.innerText =
-            "🔊 Playing";
+            })
+            .catch(function () {
+
+                musicButton.innerText =
+                    "🎵 Music";
+
+            });
 
     }
 );
@@ -732,32 +815,169 @@ musicInput.addEventListener(
 
 removeMusicButton.addEventListener(
     "click",
-    function() {
+    function () {
 
         if (!editMode) {
-
             return;
-
         }
 
 
         music.pause();
+
 
         music.removeAttribute("src");
 
         music.load();
 
 
-        musicLoaded =
-            false;
+        musicLoaded = false;
 
 
         musicButton.innerText =
             "🎵 Music";
 
 
-        musicInput.value =
-            "";
+        musicInput.value = "";
 
     }
 );
+
+
+// ========================================
+// DEFAULT GITHUB MUSIC
+// ========================================
+
+function loadDefaultMusic() {
+
+    music.src =
+        "audio/birthday.mp3";
+
+
+    musicLoaded = true;
+
+
+    music.play()
+        .then(function () {
+
+            musicButton.innerText =
+                "🔊 Playing";
+
+        })
+        .catch(function () {
+
+            musicButton.innerText =
+                "🎵 Music";
+
+        });
+
+}
+
+
+// ========================================
+// START MUSIC
+// ========================================
+
+function tryStartMusic() {
+
+    // Don't force autoplay.
+    // Browser autoplay policies may block it.
+
+    loadDefaultMusic();
+
+}
+
+
+function startMusicIfAvailable() {
+
+    if (!musicLoaded) {
+
+        loadDefaultMusic();
+
+        return;
+
+    }
+
+
+    if (music.paused) {
+
+        music.play()
+            .then(function () {
+
+                musicButton.innerText =
+                    "🔊 Playing";
+
+            })
+            .catch(function () {});
+
+    }
+
+}
+
+
+// ========================================
+// KEYBOARD SHORTCUT
+// ========================================
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        // ESC = close photo
+        if (event.key === "Escape") {
+
+            closePhotoViewer();
+
+        }
+
+
+        // Space = music pause/play
+        if (
+            event.code === "Space" &&
+            document.activeElement.tagName !== "INPUT" &&
+            document.activeElement.tagName !== "TEXTAREA" &&
+            document.activeElement.contentEditable !== "true"
+        ) {
+
+            event.preventDefault();
+
+            if (musicLoaded) {
+
+                if (music.paused) {
+
+                    music.play();
+
+                    musicButton.innerText =
+                        "🔊 Playing";
+
+                }
+
+                else {
+
+                    music.pause();
+
+                    musicButton.innerText =
+                        "🔇 Paused";
+
+                }
+
+            }
+
+        }
+
+    }
+);
+
+
+// ========================================
+// INITIAL LOAD
+// ========================================
+
+loadSavedLetter();
+
+
+// Start background hearts after page loads
+setTimeout(function () {
+
+    createHeart();
+
+}, 500);
