@@ -16,6 +16,10 @@
 <div id="hearts"></div>
 
 
+<!-- Floating save icon used by the global text-edit system -->
+<div id="floatingSaveIcon" class="floating-save-icon hidden">💾</div>
+
+
 <!-- ================================
      LOGIN
 ================================ -->
@@ -26,9 +30,9 @@
 
         <div class="login-heart">❤️</div>
 
-        <h1>For Sandali</h1>
+        <h1 class="editable" data-edit-key="loginTitle">For Sandali</h1>
 
-        <p>Enter your name to continue...</p>
+        <p class="editable" data-edit-key="loginSubtitle">Enter your name to continue...</p>
 
         <input
             id="usernameInput"
@@ -84,13 +88,13 @@
 
     <div class="scene-content">
 
-        <div class="tiny-title">
+        <div class="tiny-title editable" data-edit-key="introTiny">
             A LITTLE SOMETHING
         </div>
 
-        <h1>Sandali...</h1>
+        <h1 class="editable" data-edit-key="introTitle">Sandali...</h1>
 
-        <p class="intro-line">
+        <p class="intro-line editable" data-edit-key="introText">
             I made a little place<br>
             just for you. ❤️
         </p>
@@ -112,7 +116,7 @@
 
     <div class="scene-content">
 
-        <div class="date">
+        <div class="date editable" data-edit-key="birthdayDate">
             27 • 08 • 2026
         </div>
 
@@ -120,11 +124,11 @@
             🎂
         </div>
 
-        <h1>Happy Birthday</h1>
+        <h1 class="editable" data-edit-key="birthdayTitle">Happy Birthday</h1>
 
-        <h2>Sandali ❤️</h2>
+        <h2 class="editable" data-edit-key="birthdaySubtitle">Sandali ❤️</h2>
 
-        <p>
+        <p class="editable" data-edit-key="birthdayText">
             අද දවස ඔයාගේ...
             <br>
             ඒ නිසා මේ පොඩි surprise එකත් ඔයාට.
@@ -149,11 +153,11 @@
 
         <div class="section-title">
 
-            <span>01</span>
+            <span class="editable" data-edit-key="memoriesNum">01</span>
 
-            <h1>Our Memories</h1>
+            <h1 class="editable" data-edit-key="memoriesTitle">Our Memories</h1>
 
-            <p>
+            <p class="editable" data-edit-key="memoriesSubtitle">
                 Things I don't want to forget...
             </p>
 
@@ -213,11 +217,11 @@
 
         <div class="section-title">
 
-            <span>02</span>
+            <span class="editable" data-edit-key="letterNum">02</span>
 
-            <h1>A Letter For You</h1>
+            <h1 class="editable" data-edit-key="letterSectionTitle">A Letter For You</h1>
 
-            <p>
+            <p class="editable" data-edit-key="letterSectionSubtitle">
                 There are things I don't always say...
             </p>
 
@@ -336,13 +340,13 @@
             ❤️
         </div>
 
-        <div class="tiny-title">
+        <div class="tiny-title editable" data-edit-key="secretTiny">
             ONE LAST THING
         </div>
 
-        <h1>For You</h1>
+        <h1 class="editable" data-edit-key="secretTitle">For You</h1>
 
-        <p>
+        <p class="editable" data-edit-key="secretText">
             Before this little world ends...
         </p>
 
@@ -353,14 +357,14 @@
 
         <div id="finalMessage" class="final-message">
 
-            <h2>Sandali ❤️</h2>
+            <h2 class="editable" data-edit-key="finalTitle">Sandali ❤️</h2>
 
-            <p>
+            <p class="editable" data-edit-key="finalText1">
                 Happy Birthday to someone
                 who means so much to me.
             </p>
 
-            <p>
+            <p class="editable" data-edit-key="finalText2">
                 මම හැමදාම ඔයාට ලොකු දේවල්
                 දෙන්න පුළුවන් කෙනෙක් වෙන්න
                 බැරි වෙන්න පුළුවන්.
@@ -369,14 +373,14 @@
                 මට වටිනවා.
             </p>
 
-            <p>
+            <p class="editable" data-edit-key="finalText3">
                 මේ birthday එකේ ඉඳන්
                 ඉස්සරහට එන හැම birthday එකක්ම
                 ඔයා හිනාවෙලා සමරනවා දකින්න
                 මම කැමතියි. ❤️
             </p>
 
-            <h3>
+            <h3 class="editable" data-edit-key="finalHeading">
                 Happy Birthday, Sandali 🎂
             </h3>
 
