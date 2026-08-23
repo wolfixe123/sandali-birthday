@@ -125,6 +125,10 @@ function enableEditMode() {
     // Load saved letter
     loadSavedLetter();
 
+
+    // Turn on the global "edit anywhere" system
+    setEditableElementsState(true);
+
 }
 
 
@@ -163,6 +167,10 @@ function disableEditMode() {
 
     // Load saved letter
     loadSavedLetter();
+
+
+    // Turn off the global "edit anywhere" system
+    setEditableElementsState(false);
 
 }
 
@@ -472,7 +480,7 @@ document.addEventListener(
 
 
 // ========================================
-// SAVE LETTER
+// SAVE LETTER (existing dedicated system)
 // ========================================
 
 document
@@ -538,6 +546,221 @@ function loadSavedLetter() {
         .getElementById("letterText")
         .innerHTML =
         savedLetter;
+
+}
+
+
+// ========================================================
+// GLOBAL "EDIT ANYWHERE" SYSTEM
+// Any element with class="editable" + data-edit-key="..."
+// becomes editable when Wolfixe logs in. A small floating
+// 💾 icon appears next to the element being edited, and
+// clicking it saves just that element's text.
+// ========================================================
+
+const floatingSaveIcon =
+    document.getElementById("floatingSaveIcon");
+
+let currentEditingElement = null;
+
+
+function setEditableElementsState(isEditable) {
+
+    const editableEls =
+        document.querySelectorAll(".editable");
+
+    editableEls.forEach(function (el) {
+
+        el.contentEditable =
+            isEditable ? "true" : "false";
+
+        if (isEditable) {
+
+            el.classList.add("edit-active");
+
+        } else {
+
+            el.classList.remove("edit-active");
+
+        }
+
+    });
+
+
+    if (!isEditable) {
+
+        hideFloatingSaveIcon();
+
+    }
+
+}
+
+
+function setupEditableElements() {
+
+    const editableEls =
+        document.querySelectorAll(".editable");
+
+
+    editableEls.forEach(function (el) {
+
+        // Show the save icon whenever this element
+        // is focused or typed into (only matters
+        // while contentEditable is actually "true")
+        el.addEventListener("focus", function () {
+
+            if (!editMode) {
+                return;
+            }
+
+            currentEditingElement = el;
+
+            positionFloatingSaveIcon(el);
+
+        });
+
+
+        el.addEventListener("input", function () {
+
+            if (!editMode) {
+                return;
+            }
+
+            currentEditingElement = el;
+
+            positionFloatingSaveIcon(el);
+
+        });
+
+
+        // Hide the icon when clicking away
+        // (small delay so a click on the icon
+        // itself still registers first)
+        el.addEventListener("blur", function () {
+
+            setTimeout(function () {
+
+                hideFloatingSaveIcon();
+
+            }, 150);
+
+        });
+
+    });
+
+}
+
+
+function positionFloatingSaveIcon(el) {
+
+    const rect =
+        el.getBoundingClientRect();
+
+
+    floatingSaveIcon.style.top =
+        (window.scrollY + rect.top - 14) + "px";
+
+    floatingSaveIcon.style.left =
+        (window.scrollX + rect.right + 10) + "px";
+
+
+    floatingSaveIcon.classList.remove("hidden");
+
+}
+
+
+function hideFloatingSaveIcon() {
+
+    floatingSaveIcon.classList.add("hidden");
+
+    currentEditingElement = null;
+
+}
+
+
+// Prevent the icon click from stealing focus
+// (which would fire "blur" before "click")
+floatingSaveIcon.addEventListener(
+    "mousedown",
+    function (event) {
+
+        event.preventDefault();
+
+    }
+);
+
+
+floatingSaveIcon.addEventListener(
+    "click",
+    function () {
+
+        if (!currentEditingElement) {
+            return;
+        }
+
+
+        saveEditableElement(currentEditingElement);
+
+
+        floatingSaveIcon.innerText = "✅";
+
+        setTimeout(function () {
+
+            floatingSaveIcon.innerText = "💾";
+
+        }, 1200);
+
+    }
+);
+
+
+function saveEditableElement(el) {
+
+    const key =
+        el.getAttribute("data-edit-key");
+
+
+    if (!key) {
+        return;
+    }
+
+
+    localStorage.setItem(
+        "edit_" + key,
+        el.innerHTML
+    );
+
+}
+
+
+function loadEditableContent() {
+
+    const editableEls =
+        document.querySelectorAll(".editable");
+
+
+    editableEls.forEach(function (el) {
+
+        const key =
+            el.getAttribute("data-edit-key");
+
+
+        if (!key) {
+            return;
+        }
+
+
+        const saved =
+            localStorage.getItem("edit_" + key);
+
+
+        if (saved !== null) {
+
+            el.innerHTML = saved;
+
+        }
+
+    });
 
 }
 
@@ -820,6 +1043,10 @@ document.addEventListener(
 // ========================================
 
 loadSavedLetter();
+
+setupEditableElements();
+
+loadEditableContent();
 
 
 // Start background hearts after page loads
