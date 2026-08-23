@@ -122,10 +122,6 @@ function enableEditMode() {
     musicControls.classList.remove("hidden");
 
 
-    // Load saved letter
-    loadSavedLetter();
-
-
     // Turn on the global "edit anywhere" system
     setEditableElementsState(true);
 
@@ -163,10 +159,6 @@ function disableEditMode() {
 
     // Music control can remain visible
     musicControls.classList.remove("hidden");
-
-
-    // Load saved letter
-    loadSavedLetter();
 
 
     // Turn off the global "edit anywhere" system
@@ -479,32 +471,28 @@ document.addEventListener(
 );
 
 
-// ========================================
-// SAVE LETTER (existing dedicated system)
-// ========================================
+// ========================================================
+// CLOUD SYNC (Firestore)
+// Letter text + every ".editable" element is saved to,
+// and loaded from, an online Firestore database so
+// changes show up on every device, not just this browser.
+// ========================================================
+
+const letterEl =
+    document.getElementById("letterText");
+
+
+// ---- SAVE LETTER ----
 
 document
     .getElementById("saveLetterButton")
-    .addEventListener("click", function () {
+    .addEventListener("click", async function () {
 
         if (!editMode) {
-
             return;
-
         }
 
 
-        const letter =
-            document.getElementById("letterText");
-
-
-        localStorage.setItem(
-            "sandaliBirthdayLetter",
-            letter.innerHTML
-        );
-
-
-        // Visual feedback
         const button = this;
 
         const originalText =
@@ -512,7 +500,20 @@ document
 
 
         button.innerText =
-            "✓ Saved ❤️";
+            "Saving...";
+
+
+        const success =
+            await window.cloudSave(
+                "letter",
+                letterEl.innerHTML
+            );
+
+
+        button.innerText =
+            success ?
+                "✓ Saved ❤️" :
+                "⚠ Failed, try again";
 
 
         setTimeout(function () {
@@ -525,29 +526,71 @@ document
     });
 
 
-// ========================================
-// LOAD SAVED LETTER
-// ========================================
+// ---- APPLY DATA COMING FROM THE CLOUD ----
 
-function loadSavedLetter() {
+function applyCloudData(data) {
 
-    const savedLetter =
-        localStorage.getItem(
-            "sandaliBirthdayLetter"
-        );
-
-
-    if (!savedLetter) {
+    if (!data) {
         return;
     }
 
 
+    // Letter (skip while Wolfixe is actively
+    // editing it, so we don't overwrite typing)
+    if (
+        typeof data.letter === "string" &&
+        document.activeElement !== letterEl
+    ) {
+
+        letterEl.innerHTML = data.letter;
+
+    }
+
+
+    // Every generic editable element
     document
-        .getElementById("letterText")
-        .innerHTML =
-        savedLetter;
+        .querySelectorAll(".editable")
+        .forEach(function (el) {
+
+            const key =
+                el.getAttribute("data-edit-key");
+
+
+            if (!key) {
+                return;
+            }
+
+
+            if (
+                data[key] !== undefined &&
+                document.activeElement !== el
+            ) {
+
+                el.innerHTML = data[key];
+
+            }
+
+        });
 
 }
+
+
+// ---- LOAD ONCE + LISTEN FOR LIVE CHANGES ----
+
+(async function initCloudSync() {
+
+    const initialData =
+        await window.cloudLoad();
+
+    applyCloudData(initialData);
+
+
+    // Live updates: if Wolfixe saves something
+    // on another device while this page is open,
+    // it updates here automatically.
+    window.cloudListen(applyCloudData);
+
+})();
 
 
 // ========================================================
@@ -555,7 +598,7 @@ function loadSavedLetter() {
 // Any element with class="editable" + data-edit-key="..."
 // becomes editable when Wolfixe logs in. A small floating
 // 💾 icon appears next to the element being edited, and
-// clicking it saves just that element's text.
+// clicking it saves just that element's text to the cloud.
 // ========================================================
 
 const floatingSaveIcon =
@@ -604,9 +647,6 @@ function setupEditableElements() {
 
     editableEls.forEach(function (el) {
 
-        // Show the save icon whenever this element
-        // is focused or typed into (only matters
-        // while contentEditable is actually "true")
         el.addEventListener("focus", function () {
 
             if (!editMode) {
@@ -633,9 +673,6 @@ function setupEditableElements() {
         });
 
 
-        // Hide the icon when clicking away
-        // (small delay so a click on the icon
-        // itself still registers first)
         el.addEventListener("blur", function () {
 
             setTimeout(function () {
@@ -678,8 +715,6 @@ function hideFloatingSaveIcon() {
 }
 
 
-// Prevent the icon click from stealing focus
-// (which would fire "blur" before "click")
 floatingSaveIcon.addEventListener(
     "mousedown",
     function (event) {
@@ -692,17 +727,33 @@ floatingSaveIcon.addEventListener(
 
 floatingSaveIcon.addEventListener(
     "click",
-    function () {
+    async function () {
 
         if (!currentEditingElement) {
             return;
         }
 
 
-        saveEditableElement(currentEditingElement);
+        const key =
+            currentEditingElement.getAttribute(
+                "data-edit-key"
+            );
 
 
-        floatingSaveIcon.innerText = "✅";
+        if (!key) {
+            return;
+        }
+
+
+        const success =
+            await window.cloudSave(
+                key,
+                currentEditingElement.innerHTML
+            );
+
+
+        floatingSaveIcon.innerText =
+            success ? "✅" : "⚠️";
 
         setTimeout(function () {
 
@@ -712,57 +763,6 @@ floatingSaveIcon.addEventListener(
 
     }
 );
-
-
-function saveEditableElement(el) {
-
-    const key =
-        el.getAttribute("data-edit-key");
-
-
-    if (!key) {
-        return;
-    }
-
-
-    localStorage.setItem(
-        "edit_" + key,
-        el.innerHTML
-    );
-
-}
-
-
-function loadEditableContent() {
-
-    const editableEls =
-        document.querySelectorAll(".editable");
-
-
-    editableEls.forEach(function (el) {
-
-        const key =
-            el.getAttribute("data-edit-key");
-
-
-        if (!key) {
-            return;
-        }
-
-
-        const saved =
-            localStorage.getItem("edit_" + key);
-
-
-        if (saved !== null) {
-
-            el.innerHTML = saved;
-
-        }
-
-    });
-
-}
 
 
 // ========================================
@@ -1042,11 +1042,7 @@ document.addEventListener(
 // INITIAL LOAD
 // ========================================
 
-loadSavedLetter();
-
 setupEditableElements();
-
-loadEditableContent();
 
 
 // Start background hearts after page loads
