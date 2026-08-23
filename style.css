@@ -1,3 +1,8 @@
+/* =========================================================
+   SANDALI BIRTHDAY WEBSITE
+   CINEMATIC STYLE SYSTEM
+========================================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -25,34 +30,108 @@ body {
 }
 
 
-/* ========================================
-   STARS
-======================================== */
+/* =========================================================
+   GLOBAL ATMOSPHERE
+========================================================= */
 
-#stars {
+body::before {
+    content: "";
+
     position: fixed;
+
     inset: 0;
 
     pointer-events: none;
 
     background:
-        radial-gradient(2px 2px at 20% 30%, white, transparent),
-        radial-gradient(1px 1px at 80% 20%, white, transparent),
-        radial-gradient(2px 2px at 60% 70%, white, transparent),
-        radial-gradient(1px 1px at 40% 80%, white, transparent);
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(255, 80, 180, 0.06),
+            transparent 45%
+        );
 
-    opacity: 0.5;
+    z-index: 0;
+}
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
+#stars {
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+        radial-gradient(
+            2px 2px at 10% 20%,
+            rgba(255,255,255,0.9),
+            transparent
+        ),
+        radial-gradient(
+            1px 1px at 25% 70%,
+            rgba(255,255,255,0.8),
+            transparent
+        ),
+        radial-gradient(
+            2px 2px at 42% 30%,
+            rgba(255,255,255,0.7),
+            transparent
+        ),
+        radial-gradient(
+            1px 1px at 58% 80%,
+            rgba(255,255,255,0.8),
+            transparent
+        ),
+        radial-gradient(
+            2px 2px at 72% 25%,
+            rgba(255,255,255,0.8),
+            transparent
+        ),
+        radial-gradient(
+            1px 1px at 88% 65%,
+            rgba(255,255,255,0.9),
+            transparent
+        ),
+        radial-gradient(
+            2px 2px at 94% 12%,
+            rgba(255,255,255,0.7),
+            transparent
+        );
+
+    opacity: 0.55;
+
+    animation:
+        starPulse
+        5s
+        ease-in-out
+        infinite alternate;
 
     z-index: 1;
 }
 
+@keyframes starPulse {
 
-/* ========================================
+    from {
+        opacity: 0.3;
+    }
+
+    to {
+        opacity: 0.75;
+    }
+}
+
+
+/* =========================================================
    HEARTS
-======================================== */
+========================================================= */
 
 #hearts {
     position: fixed;
+
     inset: 0;
 
     pointer-events: none;
@@ -64,7 +143,14 @@ body {
 
 .heart {
     position: absolute;
+
     bottom: -40px;
+
+    filter:
+        drop-shadow(
+            0 0 8px
+            rgba(255,100,200,0.4)
+        );
 
     animation:
         heartFloat
@@ -77,38 +163,53 @@ body {
 @keyframes heartFloat {
 
     0% {
+
         transform:
             translateY(0)
-            rotate(0deg);
+            rotate(0deg)
+            scale(0.7);
 
         opacity: 0;
     }
 
     15% {
-        opacity: 0.7;
+
+        opacity: 0.75;
+    }
+
+    50% {
+
+        transform:
+            translateY(-50vh)
+            rotate(180deg)
+            scale(1);
     }
 
     100% {
+
         transform:
-            translateY(-110vh)
-            rotate(360deg);
+            translateY(-115vh)
+            rotate(360deg)
+            scale(0.7);
 
         opacity: 0;
     }
 }
 
 
-/* ========================================
+/* =========================================================
    SCENES
-======================================== */
+========================================================= */
 
 .scene {
     position: fixed;
+
     inset: 0;
 
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
     text-align: center;
@@ -117,132 +218,214 @@ body {
 
     visibility: hidden;
 
-    transform: scale(1.04);
+    transform:
+        scale(1.06)
+        translateY(10px);
+
+    filter: blur(3px);
 
     transition:
         opacity 0.9s ease,
         transform 0.9s ease,
+        filter 0.9s ease,
         visibility 0.9s;
 
     z-index: 5;
 }
 
 .scene.active {
+
     opacity: 1;
 
     visibility: visible;
 
-    transform: scale(1);
+    transform:
+        scale(1)
+        translateY(0);
+
+    filter: blur(0);
 }
 
 
-/* ========================================
+/* =========================================================
    BACKGROUNDS
-======================================== */
+========================================================= */
 
 #login,
 #intro {
-    background:
-        radial-gradient(
-            circle at 50% 40%,
-            #510879,
-            #180021 45%,
-            #040006 100%
-        );
-}
 
-#birthday {
     background:
         radial-gradient(
             circle at 50% 35%,
-            #750c50,
-            #27001f 50%,
-            #050007 100%
-        );
-}
-
-#memories {
-    background:
-        radial-gradient(
-            circle at 50% 30%,
-            #40116a,
-            #110019 55%,
+            #650b91 0%,
+            #260036 38%,
+            #100014 70%,
             #030005 100%
         );
 }
 
-#letter {
+#birthday {
+
     background:
         radial-gradient(
-            circle at 50% 40%,
-            #491238,
-            #15000f 60%,
-            #040005 100%
+            circle at 50% 30%,
+            #a11268 0%,
+            #45002f 35%,
+            #1c0019 65%,
+            #040006 100%
+        );
+}
+
+#memories {
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            #5c1b91 0%,
+            #26003c 40%,
+            #0d0017 70%,
+            #020004 100%
+        );
+}
+
+#letter {
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            #711c52 0%,
+            #35001f 40%,
+            #13000e 70%,
+            #030004 100%
         );
 
     overflow-y: auto;
 }
 
 #secret {
+
     background:
         radial-gradient(
-            circle at 50% 35%,
-            #780a48,
-            #250017 50%,
-            #040005 100%
+            circle at 50% 30%,
+            #ad125f 0%,
+            #4c002d 35%,
+            #1d0017 65%,
+            #030004 100%
         );
 }
 
 
-/* ========================================
+/* =========================================================
    LOGIN
-======================================== */
+========================================================= */
 
 .login-box {
-    width: min(420px, 90%);
 
-    padding: 45px 30px;
+    position: relative;
 
-    border-radius: 30px;
+    width: min(440px, 90%);
+
+    padding: 50px 35px;
+
+    border-radius: 32px;
 
     background:
-        rgba(255,255,255,0.07);
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.11),
+            rgba(255,255,255,0.035)
+        );
 
     border:
         1px solid
-        rgba(255,255,255,0.15);
+        rgba(255,255,255,0.18);
 
-    backdrop-filter: blur(20px);
+    backdrop-filter:
+        blur(25px);
 
     box-shadow:
-        0 30px 80px
-        rgba(0,0,0,0.35);
+        0 30px 100px
+        rgba(0,0,0,0.5),
+
+        inset 0 1px 0
+        rgba(255,255,255,0.1);
 
     animation:
         contentAppear
         1s ease;
 }
 
+.login-box::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -2px;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,120,210,0.35),
+            transparent 40%,
+            rgba(160,80,255,0.25)
+        );
+
+    z-index: -1;
+
+    filter: blur(15px);
+
+    opacity: 0.5;
+}
+
 .login-heart {
-    font-size: 65px;
+
+    font-size: 70px;
 
     margin-bottom: 15px;
+
+    filter:
+        drop-shadow(
+            0 0 25px
+            rgba(255,80,180,0.8)
+        );
+
+    animation:
+        heartbeat
+        1.5s
+        infinite;
 }
 
 .login-box h1 {
-    font-size: 45px;
+
+    font-size: 48px;
 
     margin-bottom: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #ffb9e4,
+            #ffffff
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
 }
 
 .login-box input {
+
     width: 100%;
 
-    margin-top: 25px;
+    margin-top: 28px;
 
-    padding: 15px 18px;
+    padding: 16px 18px;
 
-    border-radius: 15px;
+    border-radius: 16px;
 
     border:
         1px solid
@@ -258,26 +441,46 @@ body {
     font-size: 16px;
 
     text-align: center;
+
+    transition:
+        border 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.login-box input:focus {
+
+    border-color:
+        rgba(255,150,220,0.7);
+
+    box-shadow:
+        0 0 25px
+        rgba(255,100,190,0.2);
 }
 
 .login-box input::placeholder {
-    color: rgba(255,255,255,0.5);
+
+    color:
+        rgba(255,255,255,0.45);
 }
 
 .login-error {
+
     margin-top: 15px;
 
-    color: #ff8dbf !important;
+    color:
+        #ff8dbf !important;
 
-    font-size: 14px !important;
+    font-size:
+        14px !important;
 }
 
 
-/* ========================================
+/* =========================================================
    CONTENT
-======================================== */
+========================================================= */
 
 .scene-content {
+
     position: relative;
 
     z-index: 10;
@@ -292,21 +495,26 @@ body {
 @keyframes contentAppear {
 
     from {
+
         opacity: 0;
 
         transform:
-            translateY(30px);
+            translateY(35px)
+            scale(0.98);
     }
 
     to {
+
         opacity: 1;
 
         transform:
-            translateY(0);
+            translateY(0)
+            scale(1);
     }
 }
 
 .page-container {
+
     position: relative;
 
     z-index: 10;
@@ -317,31 +525,39 @@ body {
 
     overflow-y: auto;
 
-    padding: 35px 20px;
+    padding:
+        35px 20px 80px;
 
     scrollbar-width: thin;
+
+    scrollbar-color:
+        rgba(255,150,210,0.45)
+        transparent;
 }
 
 .page-container::-webkit-scrollbar {
+
     width: 5px;
 }
 
 .page-container::-webkit-scrollbar-thumb {
+
     background:
-        rgba(255,150,210,0.4);
+        rgba(255,150,210,0.45);
 
     border-radius: 20px;
 }
 
 
-/* ========================================
+/* =========================================================
    TEXT
-======================================== */
+========================================================= */
 
 .tiny-title {
+
     font-size: 13px;
 
-    letter-spacing: 6px;
+    letter-spacing: 7px;
 
     text-transform: uppercase;
 
@@ -351,16 +567,23 @@ body {
 }
 
 .date {
+
     font-size: 16px;
 
-    letter-spacing: 6px;
+    letter-spacing: 7px;
 
-    color: #ffb9df;
+    color:
+        #ffb9df;
 
     margin-bottom: 25px;
+
+    text-shadow:
+        0 0 20px
+        rgba(255,120,200,0.5);
 }
 
 h1 {
+
     font-size:
         clamp(42px, 8vw, 90px);
 
@@ -377,39 +600,55 @@ h1 {
     -webkit-background-clip: text;
 
     -webkit-text-fill-color: transparent;
+
+    text-shadow:
+        0 0 35px
+        rgba(255,100,200,0.25);
 }
 
 h2 {
+
     font-size:
         clamp(30px, 5vw, 55px);
 
-    color: #ff9dd6;
+    color:
+        #ff9dd6;
 
     margin-bottom: 25px;
+
+    text-shadow:
+        0 0 25px
+        rgba(255,90,190,0.3);
 }
 
 p {
+
     font-size: 18px;
 
     line-height: 1.9;
 
-    color: #f8e5f2;
+    color:
+        #f8e5f2;
 }
 
 .intro-line {
+
     font-size: 21px;
 
-    color: #ead3e5;
+    color:
+        #ead3e5;
 }
 
 
-/* ========================================
+/* =========================================================
    BUTTONS
-======================================== */
+========================================================= */
 
 .main-button,
 .small-button,
 .music-controls button {
+
+    position: relative;
 
     border:
         1px solid
@@ -418,11 +657,18 @@ p {
     color: white;
 
     background:
-        rgba(255,255,255,0.08);
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.11),
+            rgba(255,255,255,0.04)
+        );
 
     cursor: pointer;
 
-    backdrop-filter: blur(15px);
+    backdrop-filter:
+        blur(15px);
+
+    overflow: hidden;
 
     transition:
         transform 0.3s ease,
@@ -430,16 +676,54 @@ p {
         box-shadow 0.3s ease;
 }
 
+.main-button::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 80%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.25),
+            transparent
+        );
+
+    transform:
+        skewX(-20deg);
+
+    transition:
+        left 0.6s ease;
+}
+
+.main-button:hover::before {
+
+    left: 140%;
+}
+
 .main-button {
+
     margin-top: 35px;
 
-    padding: 15px 30px;
+    padding:
+        16px 32px;
 
     border-radius: 50px;
 
     font-size: 16px;
 
     font-weight: bold;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,0.2);
 }
 
 .main-button:hover,
@@ -447,28 +731,38 @@ p {
 .music-controls button:hover {
 
     transform:
-        translateY(-3px);
+        translateY(-4px)
+        scale(1.03);
 
     background:
         rgba(255,100,190,0.18);
 
     box-shadow:
-        0 15px 50px
-        rgba(255,90,190,0.3);
+        0 15px 55px
+        rgba(255,90,190,0.35);
+}
+
+.main-button:active {
+
+    transform:
+        scale(0.96);
 }
 
 .small-button {
-    padding: 10px 20px;
+
+    padding:
+        10px 20px;
 
     border-radius: 30px;
 }
 
 
-/* ========================================
+/* =========================================================
    MUSIC
-======================================== */
+========================================================= */
 
 .music-controls {
+
     position: fixed;
 
     top: 18px;
@@ -483,26 +777,43 @@ p {
 }
 
 .music-controls button {
-    padding: 10px 15px;
+
+    padding:
+        10px 15px;
 
     border-radius: 30px;
 
     font-size: 13px;
 }
 
+.music-controls button:first-child {
+
+    box-shadow:
+        0 0 20px
+        rgba(255,100,190,0.15);
+}
+
 .hidden {
+
     display: none !important;
 }
 
 
-/* ========================================
+/* =========================================================
    CAKE
-======================================== */
+========================================================= */
 
 .cake {
-    font-size: 90px;
+
+    font-size: 95px;
 
     margin-bottom: 10px;
+
+    filter:
+        drop-shadow(
+            0 0 25px
+            rgba(255,150,210,0.6)
+        );
 
     animation:
         cakeFloat
@@ -515,48 +826,61 @@ p {
 
     0%,
     100% {
+
         transform:
-            translateY(0);
+            translateY(0)
+            rotate(-2deg);
     }
 
     50% {
+
         transform:
-            translateY(-12px);
+            translateY(-14px)
+            rotate(2deg);
     }
 }
 
 
-/* ========================================
+/* =========================================================
    SECTION TITLE
-======================================== */
+========================================================= */
 
 .section-title {
-    margin-bottom: 30px;
+
+    margin-bottom: 35px;
 }
 
 .section-title span {
+
     display: block;
 
-    color: #ff9fd8;
+    color:
+        #ff9fd8;
 
     letter-spacing: 5px;
 
     font-size: 13px;
 
     margin-bottom: 10px;
+
+    text-shadow:
+        0 0 15px
+        rgba(255,100,190,0.4);
 }
 
 .section-title h1 {
+
     font-size:
         clamp(38px, 6vw, 65px);
 }
 
 
-/* ========================================
+/* =========================================================
    PHOTO UPLOAD
-======================================== */
+========================================================= */
 
 .upload-box {
+
     display: flex;
 
     flex-direction: column;
@@ -565,17 +889,19 @@ p {
 
     align-items: center;
 
-    width: min(500px, 90%);
+    width:
+        min(500px, 90%);
 
-    min-height: 150px;
+    min-height: 160px;
 
-    margin: 0 auto 35px;
+    margin:
+        0 auto 35px;
 
     padding: 25px;
 
     border:
         1px dashed
-        rgba(255,180,225,0.5);
+        rgba(255,180,225,0.55);
 
     border-radius: 25px;
 
@@ -586,40 +912,60 @@ p {
 
     transition:
         transform 0.3s ease,
-        background 0.3s ease;
+        background 0.3s ease,
+        border 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .upload-box:hover {
-    transform: scale(1.02);
+
+    transform:
+        translateY(-4px);
 
     background:
         rgba(255,120,200,0.1);
+
+    border-color:
+        rgba(255,180,225,0.9);
+
+    box-shadow:
+        0 15px 45px
+        rgba(255,80,180,0.15);
 }
 
 .upload-icon {
-    font-size: 40px;
+
+    font-size: 42px;
 
     margin-bottom: 8px;
 
-    color: #ff9dd6;
+    color:
+        #ff9dd6;
+
+    text-shadow:
+        0 0 20px
+        rgba(255,100,200,0.6);
 }
 
 .upload-box strong {
+
     font-size: 17px;
 }
 
 .upload-box small {
+
     margin-top: 5px;
 
     opacity: 0.6;
 }
 
 
-/* ========================================
+/* =========================================================
    GALLERY
-======================================== */
+========================================================= */
 
 .gallery {
+
     display: grid;
 
     grid-template-columns:
@@ -628,7 +974,7 @@ p {
             minmax(180px, 1fr)
         );
 
-    gap: 20px;
+    gap: 22px;
 
     max-width: 950px;
 
@@ -636,15 +982,21 @@ p {
 }
 
 .photo-card {
+
     position: relative;
 
     aspect-ratio: 1 / 1;
 
-    border-radius: 18px;
+    border-radius: 20px;
 
     overflow: hidden;
 
-    background: #150019;
+    background:
+        linear-gradient(
+            145deg,
+            #220027,
+            #0b000f
+        );
 
     border:
         1px solid
@@ -652,12 +1004,50 @@ p {
 
     cursor: pointer;
 
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,0.35);
+
     animation:
         photoAppear
         0.7s ease;
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.photo-card:hover {
+
+    transform:
+        translateY(-7px)
+        scale(1.025);
+
+    box-shadow:
+        0 25px 65px
+        rgba(255,80,190,0.25);
+}
+
+.photo-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent 55%,
+            rgba(0,0,0,0.35)
+        );
+
+    pointer-events: none;
 }
 
 .photo-card img {
+
     width: 100%;
 
     height: 100%;
@@ -665,58 +1055,75 @@ p {
     object-fit: cover;
 
     transition:
-        transform 0.5s ease;
+        transform 0.6s ease;
 }
 
 .photo-card:hover img {
-    transform: scale(1.08);
+
+    transform:
+        scale(1.09);
 }
 
 @keyframes photoAppear {
 
     from {
+
         opacity: 0;
 
         transform:
-            scale(0.8);
+            scale(0.8)
+            translateY(20px);
     }
 
     to {
+
         opacity: 1;
 
         transform:
-            scale(1);
+            scale(1)
+            translateY(0);
     }
 }
 
 
-/* ========================================
+/* =========================================================
    LETTER
-======================================== */
+========================================================= */
 
 .letter-page {
+
     max-width: 900px;
 }
 
 .letter-paper {
-    width: min(750px, 95%);
+
+    position: relative;
+
+    width:
+        min(750px, 95%);
 
     margin: auto;
 
     padding:
-        45px 50px;
+        50px 55px;
 
     text-align: left;
 
-    color: #3a2332;
+    color:
+        #3a2332;
 
-    background: #f8eee5;
+    background:
+        linear-gradient(
+            135deg,
+            #fff8f1,
+            #f5e5d7
+        );
 
-    border-radius: 5px;
+    border-radius: 8px;
 
     box-shadow:
-        0 30px 80px
-        rgba(0,0,0,0.45);
+        0 35px 100px
+        rgba(0,0,0,0.5);
 
     font-family:
         "Noto Serif Sinhala",
@@ -726,20 +1133,60 @@ p {
     line-height: 2;
 
     outline: none;
+
+    transform:
+        rotate(-0.3deg);
+
+    transition:
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+}
+
+.letter-paper::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.18;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 31px,
+            rgba(100,60,60,0.15) 32px
+        );
 }
 
 .letter-paper[contenteditable="true"] {
+
     cursor: text;
+
+    transform:
+        rotate(0deg);
 
     box-shadow:
         0 0 0 2px
-        rgba(255,120,190,0.5),
-        0 30px 80px
-        rgba(0,0,0,0.45);
+        rgba(255,120,190,0.6),
+
+        0 0 40px
+        rgba(255,100,190,0.2),
+
+        0 35px 100px
+        rgba(0,0,0,0.5);
 }
 
 .letter-paper h2 {
-    color: #6e244c;
+
+    position: relative;
+
+    color:
+        #6e244c;
 
     font-size: 32px;
 
@@ -747,7 +1194,11 @@ p {
 }
 
 .letter-paper p {
-    color: #3a2332;
+
+    position: relative;
+
+    color:
+        #3a2332;
 
     font-size: 17px;
 
@@ -757,14 +1208,21 @@ p {
 }
 
 .letter-paper .highlight {
-    color: #9a275e;
+
+    color:
+        #9a275e;
 
     font-weight: bold;
 
     font-size: 20px;
+
+    text-shadow:
+        0 0 15px
+        rgba(180,50,110,0.15);
 }
 
 .signature {
+
     text-align: right;
 
     font-style: italic;
@@ -773,11 +1231,14 @@ p {
 }
 
 .edit-controls {
-    margin-top: 18px;
+
+    margin-top: 20px;
 }
 
 .edit-controls p {
-    color: #ff9dd6;
+
+    color:
+        #ff9dd6;
 
     font-size: 14px;
 
@@ -785,6 +1246,7 @@ p {
 }
 
 .edit-hint {
+
     margin-top: 15px;
 
     font-size: 12px;
@@ -793,12 +1255,19 @@ p {
 }
 
 
-/* ========================================
+/* =========================================================
    SECRET
-======================================== */
+========================================================= */
 
 .big-heart {
-    font-size: 110px;
+
+    font-size: 115px;
+
+    filter:
+        drop-shadow(
+            0 0 30px
+            rgba(255,70,150,0.7)
+        );
 
     animation:
         heartbeat
@@ -809,72 +1278,129 @@ p {
 @keyframes heartbeat {
 
     0% {
-        transform: scale(1);
+
+        transform:
+            scale(1);
     }
 
     15% {
-        transform: scale(1.15);
+
+        transform:
+            scale(1.17);
     }
 
     30% {
-        transform: scale(1);
+
+        transform:
+            scale(1);
     }
 
     45% {
-        transform: scale(1.1);
+
+        transform:
+            scale(1.1);
     }
 
     60%,
     100% {
-        transform: scale(1);
+
+        transform:
+            scale(1);
     }
 }
 
 .final-message {
+
     display: none;
 
     max-width: 650px;
 
-    margin: 35px auto 0;
+    margin:
+        35px auto 0;
 
-    padding: 30px;
+    padding: 32px;
 
-    border-radius: 25px;
+    border-radius: 28px;
 
     background:
-        rgba(255,255,255,0.07);
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.1),
+            rgba(255,255,255,0.04)
+        );
 
     border:
         1px solid
-        rgba(255,255,255,0.15);
+        rgba(255,255,255,0.16);
 
-    backdrop-filter: blur(15px);
+    backdrop-filter:
+        blur(20px);
+
+    box-shadow:
+        0 25px 80px
+        rgba(0,0,0,0.3);
+
+    animation:
+        finalReveal
+        1s ease;
 }
 
 .final-message.show {
+
     display: block;
 }
 
+@keyframes finalReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.9);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
 .final-message h3 {
+
     margin-top: 25px;
 
-    color: #ff9dd7;
+    color:
+        #ff9dd7;
 
     font-size: 23px;
 }
 
 .final-heart {
+
     font-size: 50px;
 
     margin-top: 15px;
+
+    filter:
+        drop-shadow(
+            0 0 20px
+            rgba(255,80,180,0.6)
+        );
 }
 
 
-/* ========================================
+/* =========================================================
    PHOTO VIEWER
-======================================== */
+========================================================= */
 
 .photo-viewer {
+
     position: fixed;
 
     inset: 0;
@@ -890,37 +1416,85 @@ p {
     padding: 30px;
 
     background:
-        rgba(0,0,0,0.9);
+        rgba(0,0,0,0.82);
+
+    backdrop-filter:
+        blur(12px);
 }
 
 .photo-viewer.show {
+
     display: flex;
+
+    animation:
+        viewerAppear
+        0.35s ease;
+}
+
+@keyframes viewerAppear {
+
+    from {
+
+        opacity: 0;
+    }
+
+    to {
+
+        opacity: 1;
+    }
 }
 
 .photo-viewer img {
+
     max-width: 90%;
 
     max-height: 90%;
 
     object-fit: contain;
 
-    border-radius: 10px;
+    border-radius: 12px;
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,0.7);
+
+    animation:
+        viewerImageAppear
+        0.4s ease;
+}
+
+@keyframes viewerImageAppear {
+
+    from {
+
+        transform:
+            scale(0.85);
+    }
+
+    to {
+
+        transform:
+            scale(1);
+    }
 }
 
 .close-viewer {
+
     position: absolute;
 
     top: 20px;
 
     right: 25px;
 
-    width: 45px;
+    width: 48px;
 
-    height: 45px;
+    height: 48px;
 
     border-radius: 50%;
 
-    border: none;
+    border:
+        1px solid
+        rgba(255,255,255,0.2);
 
     background:
         rgba(255,255,255,0.1);
@@ -930,22 +1504,38 @@ p {
     font-size: 30px;
 
     cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+.close-viewer:hover {
+
+    transform:
+        rotate(90deg)
+        scale(1.08);
+
+    background:
+        rgba(255,100,190,0.2);
 }
 
 
-/* ========================================
+/* =========================================================
    MOBILE
-======================================== */
+========================================================= */
 
 @media (max-width: 600px) {
 
     .music-controls {
+
         top: 10px;
 
         right: 10px;
     }
 
     .music-controls button {
+
         font-size: 11px;
 
         padding:
@@ -953,42 +1543,141 @@ p {
     }
 
     .login-box {
+
+        width: 92%;
+
         padding:
-            35px 20px;
+            38px 20px;
     }
 
     .login-box h1 {
+
         font-size: 38px;
     }
 
+    .login-heart {
+
+        font-size: 58px;
+    }
+
     .page-container {
+
         width: 95%;
 
         height: 92vh;
 
         padding:
-            25px 10px;
+            25px 10px 60px;
+    }
+
+    .tiny-title {
+
+        letter-spacing: 4px;
+
+        font-size: 11px;
+    }
+
+    .intro-line {
+
+        font-size: 18px;
+    }
+
+    .date {
+
+        font-size: 13px;
+
+        letter-spacing: 4px;
+    }
+
+    .cake {
+
+        font-size: 75px;
     }
 
     .letter-paper {
+
+        width: 96%;
+
         padding:
-            30px 22px;
+            32px 22px;
+
+        transform:
+            rotate(0);
     }
 
     .letter-paper p {
+
         font-size: 15px;
 
         line-height: 1.9;
     }
 
+    .letter-paper h2 {
+
+        font-size: 27px;
+    }
+
     .gallery {
+
         grid-template-columns:
             repeat(2, 1fr);
 
         gap: 10px;
     }
 
+    .photo-card {
+
+        border-radius: 14px;
+    }
+
+    .upload-box {
+
+        min-height: 140px;
+    }
+
     .big-heart {
-        font-size: 80px;
+
+        font-size: 82px;
+    }
+
+    .final-message {
+
+        width: 94%;
+
+        padding: 24px 18px;
+    }
+
+    .final-message p {
+
+        font-size: 15px;
+    }
+
+    .main-button {
+
+        padding:
+            14px 24px;
+
+        font-size: 14px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        scroll-behavior: auto !important;
+
+        transition-duration: 0.01ms !important;
     }
 }
