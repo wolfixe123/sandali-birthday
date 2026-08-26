@@ -2,104 +2,221 @@
 <html lang="si">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>For Sandali ❤️</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
+
+<!-- ========================================
+     BACKGROUND
+======================================== -->
+
 <div id="stars"></div>
+
 <div id="hearts"></div>
 
 
-<!-- Floating save icon used by the global text-edit system -->
-<div id="floatingSaveIcon" class="floating-save-icon hidden">💾</div>
-
-
-<!-- ================================
+<!-- ========================================
      LOGIN
-================================ -->
+======================================== -->
 
-<section id="login" class="scene active">
+<section
+    id="login"
+    class="scene active"
+>
 
     <div class="login-box">
 
-        <div class="login-heart">❤️</div>
+        <div class="login-heart">
+            ❤️
+        </div>
 
-        <h1 class="editable" data-edit-key="loginTitle">For Sandali</h1>
+        <h1>
+            For Sandali
+        </h1>
 
-        <p class="editable" data-edit-key="loginSubtitle">Enter your name to continue...</p>
+        <p>
+            Enter your name to continue...
+        </p>
+
 
         <input
             id="usernameInput"
             type="text"
-            placeholder="Username"
+            placeholder="Your name"
             autocomplete="off"
         >
 
-        <button id="loginButton" class="main-button">
+
+        <button
+            id="loginButton"
+            class="main-button"
+        >
             Enter ✨
         </button>
 
-        <p id="loginError" class="login-error"></p>
+
+        <p
+            id="loginError"
+            class="login-error"
+        ></p>
 
     </div>
 
 </section>
 
 
-<!-- ================================
-     MUSIC
-================================ -->
 
-<input
-    type="file"
-    id="musicInput"
-    accept="audio/*"
-    hidden
+<!-- ========================================
+     MUSIC
+======================================== -->
+
+<audio
+    id="music"
+    loop
+    preload="auto"
+>
+    <source
+        src="audio/birthday.MP3"
+        type="audio/mpeg"
+    >
+</audio>
+
+
+<div
+    id="musicControls"
+    class="music-controls hidden"
 >
 
-<div id="musicControls" class="music-controls hidden">
-
     <button id="musicButton">
-        🎵 Music
-    </button>
-
-    <button id="removeMusicButton">
-        🗑 Remove
+        🎵 Play Music
     </button>
 
 </div>
 
-<audio id="music" loop preload="auto">
-    <source src="audio/birthday.MP3" type="audio/mpeg">
-</audio>
 
 
-<!-- ================================
+<!-- ========================================
+     SECURITY
+     ONLY WOLFIXE
+======================================== -->
+
+<button
+    id="securityButton"
+    class="security-button hidden"
+    title="Who is online?"
+>
+    🔐
+</button>
+
+
+
+<!-- ========================================
+     ONLINE USERS POPUP
+======================================== -->
+
+<div
+    id="onlinePopup"
+    class="online-popup"
+>
+
+    <div class="online-box">
+
+        <button
+            id="closeOnline"
+            class="online-close"
+        >
+            ×
+        </button>
+
+
+        <div class="security-big">
+            🔐
+        </div>
+
+
+        <h2>
+            Login Activity
+        </h2>
+
+
+        <p class="online-subtitle">
+            People who recently opened this little world
+        </p>
+
+
+        <div
+            id="onlineUsersList"
+            class="online-users-list"
+        >
+
+            <div class="loading-users">
+                Loading...
+            </div>
+
+        </div>
+
+
+        <div class="online-status">
+            🟢 Live
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ========================================
      INTRO
-================================ -->
+======================================== -->
 
-<section id="intro" class="scene">
+<section
+    id="intro"
+    class="scene"
+>
 
     <div class="scene-content">
 
-        <div class="tiny-title editable" data-edit-key="introTiny">
+        <div class="tiny-title">
             A LITTLE SOMETHING
         </div>
 
-        <h1 class="editable" data-edit-key="introTitle">Sandali...</h1>
 
-        <p class="intro-line editable" data-edit-key="introText">
-            I made a little place<br>
+        <h1>
+            Sandali...
+        </h1>
+
+
+        <p class="intro-line">
+
+            I made a little place
+            <br>
             just for you. ❤️
+
         </p>
 
-        <button id="startButton" class="main-button">
+
+        <button
+            id="startButton"
+            class="main-button"
+        >
             Enter My Little World ✨
         </button>
 
@@ -108,34 +225,52 @@
 </section>
 
 
-<!-- ================================
-     BIRTHDAY
-================================ -->
 
-<section id="birthday" class="scene">
+<!-- ========================================
+     BIRTHDAY
+======================================== -->
+
+<section
+    id="birthday"
+    class="scene"
+>
 
     <div class="scene-content">
 
-        <div class="date editable" data-edit-key="birthdayDate">
+        <div class="date">
             27 • 08 • 2026
         </div>
+
 
         <div class="cake">
             🎂
         </div>
 
-        <h1 class="editable" data-edit-key="birthdayTitle">Happy Birthday</h1>
 
-        <h2 class="editable" data-edit-key="birthdaySubtitle">Sandali ❤️</h2>
+        <h1>
+            Happy Birthday
+        </h1>
 
-        <p class="editable" data-edit-key="birthdayText">
+
+        <h2>
+            Sandali ❤️
+        </h2>
+
+
+        <p>
+
             අද දවස ඔයාගේ...
             <br>
             ඒ නිසා මේ පොඩි surprise එකත් ඔයාට.
+
         </p>
 
-        <button id="memoriesButton" class="main-button">
-            Our Memories 📸
+
+        <button
+            id="memoriesButton"
+            class="main-button"
+        >
+            I Have Something For You ✨
         </button>
 
     </div>
@@ -143,89 +278,270 @@
 </section>
 
 
-<!-- ================================
-     MEMORIES
-================================ -->
 
-<section id="memories" class="scene">
+<!-- ========================================
+     SURPRISE / AUDIO
+======================================== -->
 
-    <div class="page-container">
+<section
+    id="memories"
+    class="scene"
+>
 
-        <div class="section-title">
+    <div class="surprise-page">
 
-            <span class="editable" data-edit-key="memoriesNum">01</span>
 
-            <h1 class="editable" data-edit-key="memoriesTitle">Our Memories</h1>
+        <div class="logged-user">
 
-            <p class="editable" data-edit-key="memoriesSubtitle">
-                Things I don't want to forget...
+            ✨ Welcome,
+            <span id="currentUserDisplay">
+                Guest
+            </span>
+
+        </div>
+
+
+        <div class="surprise-number">
+            01
+        </div>
+
+
+        <h1>
+            A Little Surprise
+        </h1>
+
+
+        <p class="surprise-subtitle">
+
+            සමහර දේවල් කියන්නෙ
+            unexpected moments වලින්... ❤️
+
+        </p>
+
+
+
+        <!-- ========================================
+             AUDIO CARD
+        ======================================== -->
+
+        <div class="surprise-card">
+
+            <div class="surprise-icon">
+                🎧
+            </div>
+
+
+            <div class="card-text">
+
+                <h2>
+                    One Little Voice
+                </h2>
+
+                <p>
+                    Sometimes a voice says
+                    more than words.
+                </p>
+
+            </div>
+
+
+            <button
+                id="voiceButton"
+                class="main-button"
+            >
+                ▶ Listen
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================================
+             MESSAGE CARD
+        ======================================== -->
+
+        <div
+            id="messageCard"
+            class="surprise-card message-card"
+        >
+
+            <div class="message-icon">
+                💌
+            </div>
+
+
+            <div class="card-text">
+
+                <h2>
+                    A Message For You
+                </h2>
+
+                <p>
+                    Someone left something here...
+                </p>
+
+            </div>
+
+
+            <button
+                id="openMessageButton"
+                class="main-button"
+            >
+                Open 💌
+            </button>
+
+        </div>
+
+
+
+        <button
+            id="letterButton"
+            class="main-button continue-button"
+        >
+            There's Something More 💌
+        </button>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================
+     MESSAGE POPUP
+======================================== -->
+
+<div
+    id="messagePopup"
+    class="message-popup"
+>
+
+    <div class="message-letter">
+
+
+        <button
+            id="closeMessage"
+            class="message-close"
+        >
+            ×
+        </button>
+
+
+        <div class="letter-decoration">
+            💌
+        </div>
+
+
+        <div
+            id="cloudMessage"
+            class="cloud-message"
+        >
+
+            <h2>
+                Sandali,
+            </h2>
+
+
+            <p>
+                Please don't smile too much
+                after reading this... 😌❤️
+            </p>
+
+
+            <p>
+
+                මේ පුංචි message එක දැක්කම
+                ඔයාටත් මේ little world එක ගැන
+                පොඩි feeling එකක් එන්න ඕනේ.
+
+            </p>
+
+
+            <p>
+
+                සමහර දේවල් ලොකු විදිහට
+                කියන්න ඕනෙ නෑ...
+                පොඩි message එකක් වුණත්
+                හිතට දැනෙන්න පුළුවන්. ❤️
+
+            </p>
+
+
+            <p class="message-sign">
+                — Wolfixe ✨
             </p>
 
         </div>
 
 
-        <!-- UPLOAD -->
 
-        <label
-            for="photoInput"
-            class="upload-box"
-            id="photoUploadBox"
+        <!-- WOLFIXE EDIT -->
+
+        <div
+            id="messageEditControls"
+            class="message-edit-controls hidden"
         >
 
-            <div class="upload-icon">
-                ＋
-            </div>
-
-            <strong>
-                Click to Upload Photos
-            </strong>
-
-            <small>
-                Select multiple photos
-            </small>
-
-        </label>
-
-        <input
-            type="file"
-            id="photoInput"
-            accept="image/*"
-            multiple
-            hidden
-        >
+            <span>
+                🔐 Wolfixe Edit Mode
+            </span>
 
 
-        <div id="gallery" class="gallery"></div>
+            <button
+                id="editMessageButton"
+                class="small-button"
+            >
+                ✏️ Edit
+            </button>
 
 
-        <button id="letterButton" class="main-button">
-            There's Something I Want To Say 💌
-        </button>
+            <button
+                id="saveMessageButton"
+                class="small-button"
+            >
+                💾 Save
+            </button>
+
+        </div>
+
 
     </div>
 
-</section>
+</div>
 
 
-<!-- ================================
+
+<!-- ========================================
      LETTER
-================================ -->
+======================================== -->
 
-<section id="letter" class="scene">
+<section
+    id="letter"
+    class="scene"
+>
 
     <div class="page-container letter-page">
 
+
         <div class="section-title">
 
-            <span class="editable" data-edit-key="letterNum">02</span>
+            <span>
+                02
+            </span>
 
-            <h1 class="editable" data-edit-key="letterSectionTitle">A Letter For You</h1>
 
-            <p class="editable" data-edit-key="letterSectionSubtitle">
+            <h1>
+                A Letter For You
+            </h1>
+
+
+            <p>
                 There are things I don't always say...
             </p>
 
         </div>
+
 
 
         <div
@@ -234,80 +550,120 @@
             contenteditable="false"
         >
 
-            <h2>සඳාලි,</h2>
+            <h2>
+                සඳාලි,
+            </h2>
+
 
             <p>
+
                 අද ඔයාගේ birthday එක කියන එකට
                 වඩා, ඔයා මගේ ජීවිතේට ආපු එක ගැන
                 අද මට හිතෙන්නෙ.
+
             </p>
 
+
             <p>
+
                 සමහර මිනිස්සු අපේ ජීවිතේට එන්නේ
                 නිකම්ම වගේ පේන්න පුළුවන්.
                 ඒත් කාලයක් ගියාම තේරෙනවා,
                 ඒ කෙනා ආවේ අපේ දවස්
                 වෙනස් කරන්න කියලා.
+
             </p>
 
+
             <p>
+
                 ඔයා එක්ක ගෙවපු පොඩි පොඩි
                 moments පවා මට මතකයි.
                 සමහර ඒවාට ලොකු story එකක්
                 නැති උනාට, මට ඒවා special.
+
             </p>
 
+
             <p>
+
                 ඔයා එක්ක හිනා වෙච්ච වෙලාවක්,
                 කතා කරපු වෙලාවක්,
                 එකට හිටපු පොඩි moment එකක්
                 උනත් මට වටිනවා.
+
             </p>
 
+
             <p>
+
                 මම perfect කෙනෙක් නෙමෙයි.
                 ඒක මම දන්නවා.
                 ඒත් ඔයා වෙනුවෙන් මට පුළුවන්
                 තරම් හොඳ කෙනෙක් වෙන්න
                 මම හැමදාම try කරනවා.
+
             </p>
 
+
             <p>
+
                 ඉතින් අද මට කියන්න තියෙන්නේ
                 එක දෙයයි...
+
             </p>
+
 
             <p class="highlight">
+
                 ඔයා මගේ ජීවිතේ ඉන්න එක ගැන
                 මම ඇත්තටම සතුටුයි. ❤️
+
             </p>
 
+
             <p>
+
                 ඔයාගේ මේ අලුත් අවුරුද්ද
                 හිනාවෙන්, සතුටෙන්,
                 ලස්සන මතක වලින් පිරෙන්න
                 කියලා මම හදවතින්ම ප්‍රාර්ථනා කරනවා.
+
             </p>
+
 
             <p>
+
                 Happy Birthday, Sandali. 🎂❤️
+
             </p>
 
+
             <p class="signature">
+
                 — From someone who is really lucky
                 to have you ❤️
+
             </p>
 
         </div>
 
 
-        <div id="editControls" class="edit-controls hidden">
+
+        <div
+            id="editControls"
+            class="edit-controls hidden"
+        >
 
             <p>
                 ✏️ Edit Mode
             </p>
 
-            <button id="saveLetterButton" class="small-button">
+
+            <button
+                id="saveLetterButton"
+                class="small-button"
+            >
                 💾 Save Letter
             </button>
 
@@ -319,7 +675,11 @@
         </div>
 
 
-        <button id="secretButton" class="main-button">
+
+        <button
+            id="secretButton"
+            class="main-button"
+        >
             One More Thing... 🔐
         </button>
 
@@ -328,61 +688,90 @@
 </section>
 
 
-<!-- ================================
-     SECRET
-================================ -->
 
-<section id="secret" class="scene">
+<!-- ========================================
+     SECRET
+======================================== -->
+
+<section
+    id="secret"
+    class="scene"
+>
 
     <div class="scene-content">
+
 
         <div class="big-heart">
             ❤️
         </div>
 
-        <div class="tiny-title editable" data-edit-key="secretTiny">
+
+        <div class="tiny-title">
             ONE LAST THING
         </div>
 
-        <h1 class="editable" data-edit-key="secretTitle">For You</h1>
 
-        <p class="editable" data-edit-key="secretText">
+        <h1>
+            For You
+        </h1>
+
+
+        <p>
             Before this little world ends...
         </p>
 
-        <button id="revealButton" class="main-button">
+
+        <button
+            id="revealButton"
+            class="main-button"
+        >
             Open My Last Message ❤️
         </button>
 
 
-        <div id="finalMessage" class="final-message">
 
-            <h2 class="editable" data-edit-key="finalTitle">Sandali ❤️</h2>
+        <div
+            id="finalMessage"
+            class="final-message"
+        >
 
-            <p class="editable" data-edit-key="finalText1">
+            <h2>
+                Sandali ❤️
+            </h2>
+
+
+            <p>
                 Happy Birthday to someone
                 who means so much to me.
             </p>
 
-            <p class="editable" data-edit-key="finalText2">
+
+            <p>
+
                 මම හැමදාම ඔයාට ලොකු දේවල්
-                දෙන්න පුළුවන් කෙනෙක් වෙන්න
-                බැරි වෙන්න පුළුවන්.
+                දෙන්න පුළුවන් කෙනෙක්
+                වෙන්න බැරි වෙන්න පුළුවන්.
                 ඒත් ඔයාට හොඳ මතකයක්
                 වෙන්න පුළුවන් හැම moment එකක්ම
                 මට වටිනවා.
+
             </p>
 
-            <p class="editable" data-edit-key="finalText3">
+
+            <p>
+
                 මේ birthday එකේ ඉඳන්
                 ඉස්සරහට එන හැම birthday එකක්ම
                 ඔයා හිනාවෙලා සමරනවා දකින්න
                 මම කැමතියි. ❤️
+
             </p>
 
-            <h3 class="editable" data-edit-key="finalHeading">
+
+            <h3>
                 Happy Birthday, Sandali 🎂
             </h3>
+
 
             <div class="final-heart">
                 ❤️
@@ -395,23 +784,9 @@
 </section>
 
 
-<!-- ================================
-     PHOTO VIEWER
-================================ -->
 
-<div id="photoViewer" class="photo-viewer">
-
-    <button id="closeViewer" class="close-viewer">
-        ×
-    </button>
-
-    <img id="viewerImage" src="" alt="Photo">
-
-</div>
-
-
-<script type="module" src="firebase-init.js"></script>
-<script defer src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
+
 </html>
