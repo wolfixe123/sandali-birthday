@@ -1,16 +1,17 @@
 // ========================================
 // SANDALI BIRTHDAY WEBSITE
-// MAIN JAVASCRIPT
+// FIREBASE VERSION
 // ========================================
 
 
 // ========================================
-// USER SETTINGS
+// SETTINGS
 // ========================================
 
 const EDIT_USERNAME = "Wolfixe";
 
 let currentUser = "";
+
 let editMode = false;
 
 
@@ -18,73 +19,90 @@ let editMode = false;
 // ELEMENTS
 // ========================================
 
-const scenes = document.querySelectorAll(".scene");
-const hearts = document.getElementById("hearts");
+const scenes =
+    document.querySelectorAll(".scene");
+
+const hearts =
+    document.getElementById("hearts");
 
 
 // ========================================
 // LOGIN
 // ========================================
 
-const loginButton = document.getElementById("loginButton");
-const usernameInput = document.getElementById("usernameInput");
-const loginError = document.getElementById("loginError");
-
-usernameInput.addEventListener("keydown", function (event) {
-
-    if (event.key === "Enter") {
-        login();
-        startMusic();
-    }
-
-});
+document
+    .getElementById("loginButton")
+    .addEventListener(
+        "click",
+        login
+    );
 
 
-function login() {
+document
+    .getElementById("usernameInput")
+    .addEventListener(
+        "keydown",
+        function(event) {
 
-    const username = usernameInput.value.trim();
+            if (event.key === "Enter") {
 
-    if (username === "") {
+                login();
 
-        loginError.innerText =
+            }
+
+        }
+    );
+
+
+async function login() {
+
+    const input =
+        document
+            .getElementById(
+                "usernameInput"
+            )
+            .value
+            .trim();
+
+
+    const error =
+        document.getElementById(
+            "loginError"
+        );
+
+
+    if (input === "") {
+
+        error.innerText =
             "Username එක දාන්න ❤️";
 
         return;
-    }
-
-
-    currentUser = username;
-
-
-    // ========================================
-    // WOLFIXE = EDITOR
-    // ========================================
-
-    if (
-        username.toLowerCase() ===
-        EDIT_USERNAME.toLowerCase()
-    ) {
-
-        editMode = true;
-
-        enableEditMode();
-
-    }
-
-    // ========================================
-    // EVERYONE ELSE = VIEWER
-    // ========================================
-
-    else {
-
-        editMode = false;
-
-        disableEditMode();
 
     }
 
 
-    loginError.innerText = "";
+    currentUser = input;
+
+
+    editMode =
+        input.toLowerCase() ===
+        EDIT_USERNAME.toLowerCase();
+
+
+    error.innerText = "";
+
+
+    updateUserDisplay();
+
+    updateEditPermissions();
+
+    updateSecurityButton();
+
+
+    // Save login session online
+
+    await registerUser();
+
 
     showScene("intro");
 
@@ -92,77 +110,85 @@ function login() {
 
 
 // ========================================
-// EDIT MODE
+// USER DISPLAY
 // ========================================
 
-function enableEditMode() {
+function updateUserDisplay() {
 
-    const letter =
-        document.getElementById("letterText");
-
-    const editControls =
-        document.getElementById("editControls");
-
-    const photoUploadBox =
-        document.getElementById("photoUploadBox");
-
-    const musicControls =
-        document.getElementById("musicControls");
+    const display =
+        document.getElementById(
+            "currentUserDisplay"
+        );
 
 
-    // Allow letter editing
-    letter.contentEditable = "true";
+    if (display) {
 
+        display.innerText =
+            currentUser;
 
-    // Show editing controls
-    editControls.classList.remove("hidden");
-
-    photoUploadBox.classList.remove("hidden");
-
-    musicControls.classList.remove("hidden");
-
-
-    // Turn on the global "edit anywhere" system
-    setEditableElementsState(true);
+    }
 
 }
 
 
 // ========================================
-// VIEWER MODE
+// EDIT PERMISSIONS
 // ========================================
 
-function disableEditMode() {
+function updateEditPermissions() {
 
-    const letter =
-        document.getElementById("letterText");
+    const letterControls =
+        document.getElementById(
+            "editControls"
+        );
 
-    const editControls =
-        document.getElementById("editControls");
-
-    const photoUploadBox =
-        document.getElementById("photoUploadBox");
-
-    const musicControls =
-        document.getElementById("musicControls");
+    const messageControls =
+        document.getElementById(
+            "messageEditControls"
+        );
 
 
-    // Disable letter editing
-    letter.contentEditable = "false";
+    if (editMode) {
+
+        letterControls
+            .classList
+            .remove("hidden");
 
 
-    // Hide editor controls
-    editControls.classList.add("hidden");
-
-    photoUploadBox.classList.add("hidden");
-
-
-    // Music control can remain visible
-    musicControls.classList.remove("hidden");
+        messageControls
+            .classList
+            .remove("hidden");
 
 
-    // Turn off the global "edit anywhere" system
-    setEditableElementsState(false);
+        document
+            .getElementById("letterText")
+            .contentEditable =
+            "true";
+
+
+    } else {
+
+        letterControls
+            .classList
+            .add("hidden");
+
+
+        messageControls
+            .classList
+            .add("hidden");
+
+
+        document
+            .getElementById("letterText")
+            .contentEditable =
+            "false";
+
+    }
+
+
+    loadSavedLetter();
+
+    loadSavedMessage();
 
 }
 
@@ -173,38 +199,28 @@ function disableEditMode() {
 
 function showScene(id) {
 
-    scenes.forEach(function (scene) {
+    scenes.forEach(
+        function(scene) {
 
-        scene.classList.remove("active");
+            scene.classList.remove(
+                "active"
+            );
 
-    });
+        }
+    );
 
 
     const target =
         document.getElementById(id);
 
 
-    if (!target) {
-        return;
+    if (target) {
+
+        target.classList.add(
+            "active"
+        );
+
     }
-
-
-    target.classList.add("active");
-
-
-    // Scroll to top
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-
-    // Small heart effect on page change
-    setTimeout(function () {
-
-        heartBurst(8);
-
-    }, 350);
 
 }
 
@@ -215,13 +231,16 @@ function showScene(id) {
 
 document
     .getElementById("startButton")
-    .addEventListener("click", function () {
+    .addEventListener(
+        "click",
+        function() {
 
-        showScene("birthday");
+            showScene("birthday");
 
-        heartBurst(30);
+            heartBurst();
 
-    });
+        }
+    );
 
 
 // ========================================
@@ -230,37 +249,46 @@ document
 
 document
     .getElementById("memoriesButton")
-    .addEventListener("click", function () {
+    .addEventListener(
+        "click",
+        function() {
 
-        showScene("memories");
+            showScene("memories");
 
-    });
+        }
+    );
 
 
 // ========================================
-// MEMORIES → LETTER
+// LETTER
 // ========================================
 
 document
     .getElementById("letterButton")
-    .addEventListener("click", function () {
+    .addEventListener(
+        "click",
+        function() {
 
-        showScene("letter");
+            showScene("letter");
 
-    });
+        }
+    );
 
 
 // ========================================
-// LETTER → SECRET
+// SECRET
 // ========================================
 
 document
     .getElementById("secretButton")
-    .addEventListener("click", function () {
+    .addEventListener(
+        "click",
+        function() {
 
-        showScene("secret");
+            showScene("secret");
 
-    });
+        }
+    );
 
 
 // ========================================
@@ -269,497 +297,858 @@ document
 
 document
     .getElementById("revealButton")
-    .addEventListener("click", function () {
-
-        const finalMessage =
-            document.getElementById("finalMessage");
-
-
-        finalMessage.classList.add("show");
-
-
-        heartBurst(45);
-
-    });
-
-
-// ========================================
-// PHOTO UPLOAD
-// ========================================
-
-const photoInput =
-    document.getElementById("photoInput");
-
-const gallery =
-    document.getElementById("gallery");
-
-
-photoInput.addEventListener(
-    "change",
-    function (event) {
-
-        // Only Wolfixe can upload
-        if (!editMode) {
-
-            photoInput.value = "";
-
-            return;
-
-        }
-
-
-        const files =
-            Array.from(event.target.files);
-
-
-        files.forEach(function (file) {
-
-            if (!file.type.startsWith("image/")) {
-                return;
-            }
-
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                function (e) {
-
-                    createPhoto(
-                        e.target.result
-                    );
-
-                };
-
-
-            reader.readAsDataURL(file);
-
-        });
-
-
-        // Allow selecting the same file again
-        photoInput.value = "";
-
-    }
-);
-
-
-// ========================================
-// CREATE PHOTO
-// ========================================
-
-function createPhoto(imageURL) {
-
-    const card =
-        document.createElement("div");
-
-
-    card.className = "photo-card";
-
-
-    const image =
-        document.createElement("img");
-
-
-    image.src = imageURL;
-
-    image.alt = "Sandali memory";
-
-
-    card.appendChild(image);
-
-    gallery.appendChild(card);
-
-
-    // Open full screen viewer
-    card.addEventListener(
+    .addEventListener(
         "click",
-        function () {
+        function() {
 
-            openPhoto(imageURL);
+            document
+                .getElementById(
+                    "finalMessage"
+                )
+                .classList
+                .add("show");
+
+
+            heartBurst();
 
         }
     );
 
 
-    // Small reveal animation
-    card.style.opacity = "0";
-
-    card.style.transform =
-        "translateY(20px) scale(.95)";
-
-
-    requestAnimationFrame(function () {
-
-        card.style.transition =
-            "opacity .6s ease, transform .6s ease";
-
-        card.style.opacity = "1";
-
-        card.style.transform =
-            "translateY(0) scale(1)";
-
-    });
-
-}
-
-
 // ========================================
-// PHOTO VIEWER
+// LETTER SAVE
 // ========================================
-
-const viewer =
-    document.getElementById("photoViewer");
-
-const viewerImage =
-    document.getElementById("viewerImage");
-
-
-function openPhoto(imageURL) {
-
-    viewerImage.src = imageURL;
-
-    viewer.classList.add("show");
-
-}
-
 
 document
-    .getElementById("closeViewer")
-    .addEventListener("click", closePhotoViewer);
+    .getElementById(
+        "saveLetterButton"
+    )
+    .addEventListener(
+        "click",
+        saveLetter
+    );
 
 
-function closePhotoViewer() {
+async function saveLetter() {
 
-    viewer.classList.remove("show");
+    if (!editMode) {
 
-    viewerImage.src = "";
+        return;
+
+    }
+
+
+    const letter =
+        document.getElementById(
+            "letterText"
+        );
+
+
+    const letterHTML =
+        letter.innerHTML;
+
+
+    try {
+
+        await setDoc(
+            doc(
+                db,
+                "birthday",
+                "main"
+            ),
+            {
+                letter:
+                    letterHTML
+            },
+            {
+                merge: true
+            }
+        );
+
+
+        alert(
+            "Letter saved ❤️"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Letter save error:",
+            error
+        );
+
+
+        alert(
+            "Letter save කරන්න බැරි වුණා 😢"
+        );
+
+    }
 
 }
 
 
-viewer.addEventListener(
-    "click",
-    function (event) {
+// ========================================
+// LOAD LETTER
+// ========================================
 
-        if (event.target === viewer) {
+async function loadSavedLetter() {
 
-            closePhotoViewer();
+    try {
 
-        }
+        const snapshot =
+            await getDoc(
+                doc(
+                    db,
+                    "birthday",
+                    "main"
+                )
+            );
 
-    }
-);
-
-
-// ESC closes photo viewer
-document.addEventListener(
-    "keydown",
-    function (event) {
 
         if (
-            event.key === "Escape" &&
-            viewer.classList.contains("show")
+            snapshot.exists()
         ) {
 
-            closePhotoViewer();
+            const data =
+                snapshot.data();
+
+
+            if (data.letter) {
+
+                document
+                    .getElementById(
+                        "letterText"
+                    )
+                    .innerHTML =
+                    data.letter;
+
+            }
 
         }
 
+    } catch (error) {
+
+        console.error(
+            "Letter load error:",
+            error
+        );
+
     }
-);
+
+}
 
 
-// ========================================================
-// CLOUD SYNC (Firestore)
-// Letter text + every ".editable" element is saved to,
-// and loaded from, an online Firestore database so
-// changes show up on every device, not just this browser.
-// ========================================================
+// ========================================
+// MESSAGE POPUP
+// ========================================
 
-const letterEl =
-    document.getElementById("letterText");
+const messagePopup =
+    document.getElementById(
+        "messagePopup"
+    );
 
-
-// ---- SAVE LETTER ----
 
 document
-    .getElementById("saveLetterButton")
-    .addEventListener("click", async function () {
+    .getElementById(
+        "openMessageButton"
+    )
+    .addEventListener(
+        "click",
+        function() {
 
-        if (!editMode) {
-            return;
-        }
+            messagePopup
+                .classList
+                .add("show");
 
-
-        const button = this;
-
-        const originalText =
-            button.innerText;
-
-
-        button.innerText =
-            "Saving...";
-
-
-        const success =
-            await window.cloudSave(
-                "letter",
-                letterEl.innerHTML
-            );
-
-
-        button.innerText =
-            success ?
-                "✓ Saved ❤️" :
-                "⚠ Failed, try again";
-
-
-        setTimeout(function () {
-
-            button.innerText =
-                originalText;
-
-        }, 2000);
-
-    });
-
-
-// ---- APPLY DATA COMING FROM THE CLOUD ----
-
-function applyCloudData(data) {
-
-    if (!data) {
-        return;
-    }
-
-
-    // Letter (skip while Wolfixe is actively
-    // editing it, so we don't overwrite typing)
-    if (
-        typeof data.letter === "string" &&
-        document.activeElement !== letterEl
-    ) {
-
-        letterEl.innerHTML = data.letter;
-
-    }
-
-
-    // Every generic editable element
-    document
-        .querySelectorAll(".editable")
-        .forEach(function (el) {
-
-            const key =
-                el.getAttribute("data-edit-key");
-
-
-            if (!key) {
-                return;
-            }
-
-
-            if (
-                data[key] !== undefined &&
-                document.activeElement !== el
-            ) {
-
-                el.innerHTML = data[key];
-
-            }
-
-        });
-
-}
-
-
-// ---- LOAD ONCE + LISTEN FOR LIVE CHANGES ----
-
-(async function initCloudSync() {
-
-    const initialData =
-        await window.cloudLoad();
-
-    applyCloudData(initialData);
-
-
-    // Live updates: if Wolfixe saves something
-    // on another device while this page is open,
-    // it updates here automatically.
-    window.cloudListen(applyCloudData);
-
-})();
-
-
-// ========================================================
-// GLOBAL "EDIT ANYWHERE" SYSTEM
-// Any element with class="editable" + data-edit-key="..."
-// becomes editable when Wolfixe logs in. A small floating
-// 💾 icon appears next to the element being edited, and
-// clicking it saves just that element's text to the cloud.
-// ========================================================
-
-const floatingSaveIcon =
-    document.getElementById("floatingSaveIcon");
-
-let currentEditingElement = null;
-
-
-function setEditableElementsState(isEditable) {
-
-    const editableEls =
-        document.querySelectorAll(".editable");
-
-    editableEls.forEach(function (el) {
-
-        el.contentEditable =
-            isEditable ? "true" : "false";
-
-        if (isEditable) {
-
-            el.classList.add("edit-active");
-
-        } else {
-
-            el.classList.remove("edit-active");
+            loadSavedMessage();
 
         }
-
-    });
-
-
-    if (!isEditable) {
-
-        hideFloatingSaveIcon();
-
-    }
-
-}
+    );
 
 
-function setupEditableElements() {
+document
+    .getElementById(
+        "closeMessage"
+    )
+    .addEventListener(
+        "click",
+        function() {
 
-    const editableEls =
-        document.querySelectorAll(".editable");
+            messagePopup
+                .classList
+                .remove("show");
 
-
-    editableEls.forEach(function (el) {
-
-        el.addEventListener("focus", function () {
-
-            if (!editMode) {
-                return;
-            }
-
-            currentEditingElement = el;
-
-            positionFloatingSaveIcon(el);
-
-        });
+        }
+    );
 
 
-        el.addEventListener("input", function () {
+messagePopup.addEventListener(
+    "click",
+    function(event) {
 
-            if (!editMode) {
-                return;
-            }
+        if (
+            event.target ===
+            messagePopup
+        ) {
 
-            currentEditingElement = el;
+            messagePopup
+                .classList
+                .remove("show");
 
-            positionFloatingSaveIcon(el);
-
-        });
-
-
-        el.addEventListener("blur", function () {
-
-            setTimeout(function () {
-
-                hideFloatingSaveIcon();
-
-            }, 150);
-
-        });
-
-    });
-
-}
-
-
-function positionFloatingSaveIcon(el) {
-
-    const rect =
-        el.getBoundingClientRect();
-
-
-    floatingSaveIcon.style.top =
-        (window.scrollY + rect.top - 14) + "px";
-
-    floatingSaveIcon.style.left =
-        (window.scrollX + rect.right + 10) + "px";
-
-
-    floatingSaveIcon.classList.remove("hidden");
-
-}
-
-
-function hideFloatingSaveIcon() {
-
-    floatingSaveIcon.classList.add("hidden");
-
-    currentEditingElement = null;
-
-}
-
-
-floatingSaveIcon.addEventListener(
-    "mousedown",
-    function (event) {
-
-        event.preventDefault();
+        }
 
     }
 );
 
 
-floatingSaveIcon.addEventListener(
+// ========================================
+// LOAD MESSAGE
+// ========================================
+
+async function loadSavedMessage() {
+
+    try {
+
+        const snapshot =
+            await getDoc(
+                doc(
+                    db,
+                    "birthday",
+                    "main"
+                )
+            );
+
+
+        if (
+            snapshot.exists()
+        ) {
+
+            const data =
+                snapshot.data();
+
+
+            if (data.message) {
+
+                document
+                    .getElementById(
+                        "cloudMessage"
+                    )
+                    .innerHTML =
+                    data.message;
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Message load error:",
+            error
+        );
+
+    }
+
+}
+
+
+// ========================================
+// EDIT MESSAGE
+// ========================================
+
+document
+    .getElementById(
+        "editMessageButton"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            if (!editMode) {
+
+                return;
+
+            }
+
+
+            const message =
+                document.getElementById(
+                    "cloudMessage"
+                );
+
+
+            message.contentEditable =
+                "true";
+
+
+            message.classList.add(
+                "editing"
+            );
+
+
+            message.focus();
+
+        }
+    );
+
+
+// ========================================
+// SAVE MESSAGE
+// ========================================
+
+document
+    .getElementById(
+        "saveMessageButton"
+    )
+    .addEventListener(
+        "click",
+        saveMessage
+    );
+
+
+async function saveMessage() {
+
+    if (!editMode) {
+
+        return;
+
+    }
+
+
+    const message =
+        document.getElementById(
+            "cloudMessage"
+        );
+
+
+    try {
+
+        await setDoc(
+            doc(
+                db,
+                "birthday",
+                "main"
+            ),
+            {
+                message:
+                    message.innerHTML
+            },
+            {
+                merge: true
+            }
+        );
+
+
+        message.contentEditable =
+            "false";
+
+
+        message.classList.remove(
+            "editing"
+        );
+
+
+        alert(
+            "Message saved ❤️"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Message save error:",
+            error
+        );
+
+
+        alert(
+            "Message save කරන්න බැරි වුණා 😢"
+        );
+
+    }
+
+}
+
+
+// ========================================
+// SECURITY / LOGIN USERS
+// ========================================
+
+const securityButton =
+    document.getElementById(
+        "securityButton"
+    );
+
+
+const onlinePopup =
+    document.getElementById(
+        "onlinePopup"
+    );
+
+
+function updateSecurityButton() {
+
+    if (
+        currentUser.toLowerCase() ===
+        EDIT_USERNAME.toLowerCase()
+    ) {
+
+        securityButton
+            .classList
+            .remove("hidden");
+
+    } else {
+
+        securityButton
+            .classList
+            .add("hidden");
+
+    }
+
+}
+
+
+// ========================================
+// REGISTER USER
+// ========================================
+
+async function registerUser() {
+
+    try {
+
+        await setDoc(
+            doc(
+                db,
+                "sessions",
+                currentUser.toLowerCase()
+            ),
+            {
+
+                username:
+                    currentUser,
+
+                lastSeen:
+                    Date.now(),
+
+                active:
+                    true
+
+            },
+            {
+                merge: true
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "User registration error:",
+            error
+        );
+
+    }
+
+}
+
+
+// ========================================
+// UPDATE USER PRESENCE
+// ========================================
+
+setInterval(
+    async function() {
+
+        if (
+            currentUser === ""
+        ) {
+
+            return;
+
+        }
+
+
+        try {
+
+            await setDoc(
+                doc(
+                    db,
+                    "sessions",
+                    currentUser.toLowerCase()
+                ),
+                {
+
+                    username:
+                        currentUser,
+
+                    lastSeen:
+                        Date.now(),
+
+                    active:
+                        true
+
+                },
+                {
+                    merge: true
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Presence update error:",
+                error
+            );
+
+        }
+
+    },
+    30000
+);
+
+
+// ========================================
+// SECURITY POPUP OPEN
+// ========================================
+
+securityButton.addEventListener(
     "click",
-    async function () {
+    function() {
 
-        if (!currentEditingElement) {
+        if (!editMode) {
+
             return;
+
         }
 
 
-        const key =
-            currentEditingElement.getAttribute(
-                "data-edit-key"
+        onlinePopup
+            .classList
+            .add("show");
+
+
+        loadUsers();
+
+    }
+);
+
+
+// ========================================
+// CLOSE SECURITY POPUP
+// ========================================
+
+document
+    .getElementById(
+        "closeOnline"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            onlinePopup
+                .classList
+                .remove("show");
+
+        }
+    );
+
+
+onlinePopup.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target ===
+            onlinePopup
+        ) {
+
+            onlinePopup
+                .classList
+                .remove("show");
+
+        }
+
+    }
+);
+
+
+// ========================================
+// LOAD USERS
+// ========================================
+
+async function loadUsers() {
+
+    const list =
+        document.getElementById(
+            "onlineUsersList"
+        );
+
+
+    list.innerHTML =
+        `<div class="loading-users">
+            Loading users... 🔐
+        </div>`;
+
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "sessions"
+                )
             );
 
 
-        if (!key) {
+        list.innerHTML = "";
+
+
+        if (
+            snapshot.empty
+        ) {
+
+            list.innerHTML =
+                `<div class="loading-users">
+                    No users found yet.
+                </div>`;
+
             return;
+
         }
 
 
-        const success =
-            await window.cloudSave(
-                key,
-                currentEditingElement.innerHTML
+        const now =
+            Date.now();
+
+
+        let count = 0;
+
+
+        snapshot.forEach(
+            function(docSnapshot) {
+
+                const data =
+                    docSnapshot.data();
+
+
+                const lastSeen =
+                    data.lastSeen || 0;
+
+
+                // Consider active for 2 minutes
+
+                const isActive =
+                    now - lastSeen <
+                    120000;
+
+
+                if (!isActive) {
+
+                    return;
+
+                }
+
+
+                count++;
+
+
+                const row =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                row.className =
+                    "user-row";
+
+
+                row.innerHTML = `
+
+                    <div class="user-avatar">
+                        👤
+                    </div>
+
+                    <div class="user-info">
+
+                        <div class="user-name">
+                            ${escapeHTML(
+                                data.username
+                            )}
+                        </div>
+
+                        <div class="user-time">
+                            Last seen just now
+                        </div>
+
+                    </div>
+
+                    <div class="user-online">
+                        ● Online
+                    </div>
+
+                `;
+
+
+                list.appendChild(row);
+
+            }
+        );
+
+
+        if (count === 0) {
+
+            list.innerHTML =
+                `<div class="loading-users">
+                    Nobody is active right now 👀
+                </div>`;
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Users load error:",
+            error
+        );
+
+
+        list.innerHTML =
+            `<div class="loading-users">
+                Couldn't load users 😢
+            </div>`;
+
+    }
+
+}
+
+
+// ========================================
+// SECURITY
+// HTML ESCAPE
+// ========================================
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.innerText =
+        text;
+
+
+    return div.innerHTML;
+
+}
+
+
+// ========================================
+// AUDIO
+// ========================================
+
+const music =
+    document.getElementById(
+        "music"
+    );
+
+
+const voiceButton =
+    document.getElementById(
+        "voiceButton"
+    );
+
+
+voiceButton.addEventListener(
+    "click",
+    async function() {
+
+        try {
+
+            if (
+                music.paused
+            ) {
+
+                await music.play();
+
+                voiceButton.innerText =
+                    "⏸ Pause";
+
+            } else {
+
+                music.pause();
+
+                voiceButton.innerText =
+                    "▶ Listen";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Audio error:",
+                error
             );
 
+            alert(
+                "Audio play කරන්න බැරි වුණා 😢"
+            );
 
-        floatingSaveIcon.innerText =
-            success ? "✅" : "⚠️";
+        }
 
-        setTimeout(function () {
+    }
+);
 
-            floatingSaveIcon.innerText = "💾";
 
-        }, 1200);
+// ========================================
+// MUSIC TOP BUTTON
+// ========================================
+
+const musicButton =
+    document.getElementById(
+        "musicButton"
+    );
+
+
+musicButton.addEventListener(
+    "click",
+    async function() {
+
+        try {
+
+            if (
+                music.paused
+            ) {
+
+                await music.play();
+
+                musicButton.innerText =
+                    "🔊 Playing";
+
+            } else {
+
+                music.pause();
+
+                musicButton.innerText =
+                    "🔇 Muted";
+
+                voiceButton.innerText =
+                    "▶ Listen";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Music error:",
+                error
+            );
+
+        }
 
     }
 );
@@ -772,19 +1161,23 @@ floatingSaveIcon.addEventListener(
 function createHeart() {
 
     const heart =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
-    heart.className = "heart";
+    heart.className =
+        "heart";
 
 
     const symbols = [
+
         "❤️",
         "💗",
         "💖",
         "💕",
-        "💓",
-        "✨"
+        "💓"
+
     ];
 
 
@@ -798,31 +1191,39 @@ function createHeart() {
 
 
     heart.style.left =
-        Math.random() * 100 + "%";
+        Math.random() * 100 +
+        "%";
 
 
     heart.style.fontSize =
         (
             12 +
             Math.random() * 22
-        ) + "px";
+        ) +
+        "px";
 
 
     heart.style.animationDuration =
         (
             5 +
             Math.random() * 6
-        ) + "s";
+        ) +
+        "s";
 
 
-    hearts.appendChild(heart);
+    hearts.appendChild(
+        heart
+    );
 
 
-    setTimeout(function () {
+    setTimeout(
+        function() {
 
-        heart.remove();
+            heart.remove();
 
-    }, 12000);
+        },
+        12000
+    );
 
 }
 
@@ -837,28 +1238,34 @@ setInterval(
 // HEART BURST
 // ========================================
 
-function heartBurst(amount = 25) {
+function heartBurst() {
 
     for (
         let i = 0;
-        i < amount;
+        i < 35;
         i++
     ) {
 
         const heart =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
-        heart.className = "heart";
+        heart.className =
+            "heart";
 
-        heart.innerText = "❤️";
+
+        heart.innerText =
+            "❤️";
 
 
         heart.style.left =
             (
                 45 +
                 Math.random() * 10
-            ) + "%";
+            ) +
+            "%";
 
 
         heart.style.bottom =
@@ -869,185 +1276,32 @@ function heartBurst(amount = 25) {
             (
                 15 +
                 Math.random() * 25
-            ) + "px";
+            ) +
+            "px";
 
 
         heart.style.animationDuration =
             (
                 2 +
                 Math.random() * 3
-            ) + "s";
+            ) +
+            "s";
 
 
-        hearts.appendChild(heart);
+        hearts.appendChild(
+            heart
+        );
 
 
-        setTimeout(function () {
+        setTimeout(
+            function() {
 
-            heart.remove();
+                heart.remove();
 
-        }, 6000);
+            },
+            6000
+        );
 
     }
 
 }
-
-
-// ========================================
-// MUSIC
-// ========================================
-
-const music =
-    document.getElementById("music");
-
-const musicButton =
-    document.getElementById("musicButton");
-
-let musicStarted = false;
-
-
-// ========================================
-// START MUSIC
-// ========================================
-
-function startMusic() {
-
-    if (musicStarted) {
-        return;
-    }
-
-    music.volume = 0.7;
-
-    music.loop = true;
-
-    music.play()
-        .then(function () {
-
-            musicStarted = true;
-
-            if (musicButton) {
-                musicButton.innerText = "🔊 Playing";
-            }
-
-        })
-        .catch(function (error) {
-
-            console.log("Autoplay blocked:", error);
-
-        });
-}
-
-
-// ========================================
-// ENTER BUTTON
-// (single listener - calls login then
-// immediately tries to start music,
-// synchronously, inside the click handler,
-// so the browser treats it as a valid
-// user gesture for autoplay)
-// ========================================
-
-loginButton.addEventListener("click", function () {
-
-    login();
-
-    startMusic();
-
-});
-
-
-// ========================================
-// MUSIC BUTTON
-// ========================================
-
-musicButton.addEventListener(
-    "click",
-    function () {
-
-        if (music.paused) {
-
-            music.play();
-
-            musicStarted = true;
-
-            musicButton.innerText =
-                "🔊 Playing";
-
-        } else {
-
-            music.pause();
-
-            musicButton.innerText =
-                "🔇 Muted";
-
-        }
-
-    }
-);
-
-
-// ========================================
-// KEYBOARD SHORTCUT
-// ========================================
-
-document.addEventListener(
-    "keydown",
-    function (event) {
-
-        // ESC = close photo
-        if (event.key === "Escape") {
-
-            closePhotoViewer();
-
-        }
-
-
-        // Space = music pause/play
-        if (
-            event.code === "Space" &&
-            document.activeElement.tagName !== "INPUT" &&
-            document.activeElement.tagName !== "TEXTAREA" &&
-            document.activeElement.contentEditable !== "true"
-        ) {
-
-            event.preventDefault();
-
-            if (music.paused) {
-
-                music.play();
-
-                musicStarted = true;
-
-                musicButton.innerText =
-                    "🔊 Playing";
-
-            }
-
-            else {
-
-                music.pause();
-
-                musicButton.innerText =
-                    "🔇 Paused";
-
-            }
-
-        }
-
-    }
-);
-
-
-// ========================================
-// INITIAL LOAD
-// ========================================
-
-setupEditableElements();
-
-
-// Start background hearts after page loads
-setTimeout(function () {
-
-    createHeart();
-
-}, 500);
