@@ -23,7 +23,10 @@
 <!-- ================================
      LOGIN
 ================================ -->
-@@ -26,9 +30,9 @@
+
+<section id="login" class="scene active">
+
+    <div class="login-box">
 
         <div class="login-heart">❤️</div>
 
@@ -35,7 +38,55 @@
 
         <input
             id="usernameInput"
-@@ -84,13 +88,13 @@
+            type="text"
+            placeholder="Username"
+            autocomplete="off"
+        >
+
+        <button id="loginButton" class="main-button">
+            Enter ✨
+        </button>
+
+        <p id="loginError" class="login-error"></p>
+
+    </div>
+
+</section>
+
+
+<!-- ================================
+     MUSIC
+================================ -->
+
+<input
+    type="file"
+    id="musicInput"
+    accept="audio/*"
+    hidden
+>
+
+<div id="musicControls" class="music-controls hidden">
+
+    <button id="musicButton">
+        🎵 Music
+    </button>
+
+    <button id="removeMusicButton">
+        🗑 Remove
+    </button>
+
+</div>
+
+<audio id="music" loop preload="auto">
+    <source src="audio/birthday.MP3" type="audio/mpeg">
+</audio>
+
+
+<!-- ================================
+     INTRO
+================================ -->
+
+<section id="intro" class="scene">
 
     <div class="scene-content">
 
@@ -52,7 +103,21 @@
             I made a little place<br>
             just for you. ❤️
         </p>
-@@ -112,19 +116,19 @@
+
+        <button id="startButton" class="main-button">
+            Enter My Little World ✨
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================================
+     BIRTHDAY
+================================ -->
+
+<section id="birthday" class="scene">
 
     <div class="scene-content">
 
@@ -76,7 +141,24 @@
             අද දවස ඔයාගේ...
             <br>
             ඒ නිසා මේ පොඩි surprise එකත් ඔයාට.
-@@ -149,11 +153,11 @@
+        </p>
+
+        <button id="memoriesButton" class="main-button">
+            Our Memories 📸
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================================
+     MEMORIES
+================================ -->
+
+<section id="memories" class="scene">
+
+    <div class="page-container">
 
         <div class="section-title">
 
@@ -91,7 +173,59 @@
                 Things I don't want to forget...
             </p>
 
-@@ -213,11 +217,11 @@
+        </div>
+
+
+        <!-- UPLOAD -->
+
+        <label
+            for="photoInput"
+            class="upload-box"
+            id="photoUploadBox"
+        >
+
+            <div class="upload-icon">
+                ＋
+            </div>
+
+            <strong>
+                Click to Upload Photos
+            </strong>
+
+            <small>
+                Select multiple photos
+            </small>
+
+        </label>
+
+        <input
+            type="file"
+            id="photoInput"
+            accept="image/*"
+            multiple
+            hidden
+        >
+
+
+        <div id="gallery" class="gallery"></div>
+
+
+        <button id="letterButton" class="main-button">
+            There's Something I Want To Say 💌
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================================
+     LETTER
+================================ -->
+
+<section id="letter" class="scene">
+
+    <div class="page-container letter-page">
 
         <div class="section-title">
 
@@ -106,7 +240,118 @@
                 There are things I don't always say...
             </p>
 
-@@ -336,13 +340,13 @@
+        </div>
+
+
+        <div
+            id="letterText"
+            class="letter-paper"
+            contenteditable="false"
+        >
+
+            <h2>සඳාලි,</h2>
+
+            <p>
+                අද ඔයාගේ birthday එක කියන එකට
+                වඩා, ඔයා මගේ ජීවිතේට ආපු එක ගැන
+                අද මට හිතෙන්නෙ.
+            </p>
+
+            <p>
+                සමහර මිනිස්සු අපේ ජීවිතේට එන්නේ
+                නිකම්ම වගේ පේන්න පුළුවන්.
+                ඒත් කාලයක් ගියාම තේරෙනවා,
+                ඒ කෙනා ආවේ අපේ දවස්
+                වෙනස් කරන්න කියලා.
+            </p>
+
+            <p>
+                ඔයා එක්ක ගෙවපු පොඩි පොඩි
+                moments පවා මට මතකයි.
+                සමහර ඒවාට ලොකු story එකක්
+                නැති උනාට, මට ඒවා special.
+            </p>
+
+            <p>
+                ඔයා එක්ක හිනා වෙච්ච වෙලාවක්,
+                කතා කරපු වෙලාවක්,
+                එකට හිටපු පොඩි moment එකක්
+                උනත් මට වටිනවා.
+            </p>
+
+            <p>
+                මම perfect කෙනෙක් නෙමෙයි.
+                ඒක මම දන්නවා.
+                ඒත් ඔයා වෙනුවෙන් මට පුළුවන්
+                තරම් හොඳ කෙනෙක් වෙන්න
+                මම හැමදාම try කරනවා.
+            </p>
+
+            <p>
+                ඉතින් අද මට කියන්න තියෙන්නේ
+                එක දෙයයි...
+            </p>
+
+            <p class="highlight">
+                ඔයා මගේ ජීවිතේ ඉන්න එක ගැන
+                මම ඇත්තටම සතුටුයි. ❤️
+            </p>
+
+            <p>
+                ඔයාගේ මේ අලුත් අවුරුද්ද
+                හිනාවෙන්, සතුටෙන්,
+                ලස්සන මතක වලින් පිරෙන්න
+                කියලා මම හදවතින්ම ප්‍රාර්ථනා කරනවා.
+            </p>
+
+            <p>
+                Happy Birthday, Sandali. 🎂❤️
+            </p>
+
+            <p class="signature">
+                — From someone who is really lucky
+                to have you ❤️
+            </p>
+
+        </div>
+
+
+        <div id="editControls" class="edit-controls hidden">
+
+            <p>
+                ✏️ Edit Mode
+            </p>
+
+            <button id="saveLetterButton" class="small-button">
+                💾 Save Letter
+            </button>
+
+        </div>
+
+
+        <div class="edit-hint">
+            Only Wolfixe can edit this letter.
+        </div>
+
+
+        <button id="secretButton" class="main-button">
+            One More Thing... 🔐
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================================
+     SECRET
+================================ -->
+
+<section id="secret" class="scene">
+
+    <div class="scene-content">
+
+        <div class="big-heart">
             ❤️
         </div>
 
@@ -123,7 +368,10 @@
             Before this little world ends...
         </p>
 
-@@ -353,14 +357,14 @@
+        <button id="revealButton" class="main-button">
+            Open My Last Message ❤️
+        </button>
+
 
         <div id="finalMessage" class="final-message">
 
@@ -141,7 +389,8 @@
                 මම හැමදාම ඔයාට ලොකු දේවල්
                 දෙන්න පුළුවන් කෙනෙක් වෙන්න
                 බැරි වෙන්න පුළුවන්.
-@@ -369,14 +373,14 @@
+                ඒත් ඔයාට හොඳ මතකයක්
+                වෙන්න පුළුවන් හැම moment එකක්ම
                 මට වටිනවා.
             </p>
 
@@ -157,3 +406,34 @@
             <h3 class="editable" data-edit-key="finalHeading">
                 Happy Birthday, Sandali 🎂
             </h3>
+
+            <div class="final-heart">
+                ❤️
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================
+     PHOTO VIEWER
+================================ -->
+
+<div id="photoViewer" class="photo-viewer">
+
+    <button id="closeViewer" class="close-viewer">
+        ×
+    </button>
+
+    <img id="viewerImage" src="" alt="Photo">
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
