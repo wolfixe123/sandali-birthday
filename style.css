@@ -1906,6 +1906,257 @@ p {
 
 
 /* =========================================================
+   VISITOR LOG (Wolfixe only)
+========================================================= */
+
+.visitor-log-button {
+
+    position: fixed;
+
+    top: 18px;
+
+    left: 18px;
+
+    z-index: 150;
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 50%;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.14),
+            rgba(255,255,255,0.05)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,0.25);
+
+    backdrop-filter:
+        blur(15px);
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,0.35);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.visitor-log-button:hover {
+
+    transform: scale(1.1);
+
+    box-shadow:
+        0 10px 30px
+        rgba(255,90,190,0.35);
+}
+
+.visitor-log-panel {
+
+    position: fixed;
+
+    top: 68px;
+
+    left: 18px;
+
+    z-index: 150;
+
+    width: min(300px, 85vw);
+
+    max-height: 400px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            150deg,
+            rgba(30,10,30,0.92),
+            rgba(10,0,15,0.92)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,0.15);
+
+    backdrop-filter:
+        blur(20px);
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,0.5);
+
+    overflow: hidden;
+}
+
+.visitor-log-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 16px 18px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.12);
+}
+
+.visitor-log-header h3 {
+
+    font-size: 14px;
+
+    letter-spacing: 0.5px;
+
+    color:
+        #ffb9df;
+}
+
+.close-visitor-log {
+
+    background: none;
+
+    border: none;
+
+    color: white;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    line-height: 1;
+
+    opacity: 0.7;
+
+    transition: opacity 0.2s ease;
+}
+
+.close-visitor-log:hover {
+
+    opacity: 1;
+}
+
+.visitor-log-list {
+
+    padding: 10px 14px 16px;
+
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        rgba(255,150,210,0.45)
+        transparent;
+}
+
+.visitor-log-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px 6px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.08);
+
+    font-size: 13px;
+}
+
+.visitor-log-item:last-child {
+
+    border-bottom: none;
+}
+
+.visitor-log-name {
+
+    font-weight: bold;
+
+    color: #ffffff;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.visitor-log-time {
+
+    color:
+        rgba(255,255,255,0.5);
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+.visitor-log-empty {
+
+    padding: 14px 6px;
+
+    font-size: 13px;
+
+    opacity: 0.6;
+
+    text-align: center;
+}
+
+
+@media (max-width: 600px) {
+
+    .visitor-log-button {
+
+        top: 10px;
+
+        left: 10px;
+
+        width: 36px;
+
+        height: 36px;
+
+        font-size: 15px;
+    }
+
+    .visitor-log-panel {
+
+        top: 56px;
+
+        left: 10px;
+    }
+
+}
+
+
+/* =========================================================
    REDUCED MOTION
 ========================================================= */
 
