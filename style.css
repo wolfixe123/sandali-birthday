@@ -1665,7 +1665,103 @@ p {
 /* =========================================================
    GLOBAL EDIT-ANYWHERE SYSTEM
 ========================================================= */
-@@ -101,3 +1765,24 @@
+
+.editable.edit-active {
+
+    cursor: text;
+
+    border-radius: 6px;
+
+    transition:
+        outline 0.2s ease,
+        background 0.2s ease;
+}
+
+.editable.edit-active:hover {
+
+    outline:
+        1px dashed
+        rgba(255,150,220,0.55);
+
+    background:
+        rgba(255,150,220,0.06);
+}
+
+.editable.edit-active:focus {
+
+    outline:
+        1px solid
+        rgba(255,150,220,0.85);
+
+    background:
+        rgba(255,150,220,0.1);
+}
+
+.floating-save-icon {
+
+    position: absolute;
+
+    z-index: 500;
+
+    width: 38px;
+
+    height: 38px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 50%;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6fb0,
+            #a94bff
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,0.4);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.floating-save-icon:hover {
+
+    transform: scale(1.12);
+
+    box-shadow:
+        0 10px 30px
+        rgba(255,90,190,0.5);
+}
+
+.floating-save-icon.hidden {
+
+    display: none;
+}
+
+
+/* Keep the floating icon usable on small screens */
+@media (max-width: 600px) {
+
+    .floating-save-icon {
+
+        width: 32px;
+
+        height: 32px;
+
+        font-size: 14px;
     }
 
 }
