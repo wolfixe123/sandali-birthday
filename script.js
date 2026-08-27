@@ -103,9 +103,6 @@ function enableEditMode() {
     const editControls =
         document.getElementById("editControls");
 
-    const photoUploadBox =
-        document.getElementById("photoUploadBox");
-
     const musicControls =
         document.getElementById("musicControls");
 
@@ -116,8 +113,6 @@ function enableEditMode() {
 
     // Show editing controls
     editControls.classList.remove("hidden");
-
-    photoUploadBox.classList.remove("hidden");
 
     musicControls.classList.remove("hidden");
 
@@ -140,9 +135,6 @@ function disableEditMode() {
     const editControls =
         document.getElementById("editControls");
 
-    const photoUploadBox =
-        document.getElementById("photoUploadBox");
-
     const musicControls =
         document.getElementById("musicControls");
 
@@ -153,8 +145,6 @@ function disableEditMode() {
 
     // Hide editor controls
     editControls.classList.add("hidden");
-
-    photoUploadBox.classList.add("hidden");
 
 
     // Music control can remain visible
@@ -281,194 +271,6 @@ document
         heartBurst(45);
 
     });
-
-
-// ========================================
-// PHOTO UPLOAD
-// ========================================
-
-const photoInput =
-    document.getElementById("photoInput");
-
-const gallery =
-    document.getElementById("gallery");
-
-
-photoInput.addEventListener(
-    "change",
-    function (event) {
-
-        // Only Wolfixe can upload
-        if (!editMode) {
-
-            photoInput.value = "";
-
-            return;
-
-        }
-
-
-        const files =
-            Array.from(event.target.files);
-
-
-        files.forEach(function (file) {
-
-            if (!file.type.startsWith("image/")) {
-                return;
-            }
-
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                function (e) {
-
-                    createPhoto(
-                        e.target.result
-                    );
-
-                };
-
-
-            reader.readAsDataURL(file);
-
-        });
-
-
-        // Allow selecting the same file again
-        photoInput.value = "";
-
-    }
-);
-
-
-// ========================================
-// CREATE PHOTO
-// ========================================
-
-function createPhoto(imageURL) {
-
-    const card =
-        document.createElement("div");
-
-
-    card.className = "photo-card";
-
-
-    const image =
-        document.createElement("img");
-
-
-    image.src = imageURL;
-
-    image.alt = "Sandali memory";
-
-
-    card.appendChild(image);
-
-    gallery.appendChild(card);
-
-
-    // Open full screen viewer
-    card.addEventListener(
-        "click",
-        function () {
-
-            openPhoto(imageURL);
-
-        }
-    );
-
-
-    // Small reveal animation
-    card.style.opacity = "0";
-
-    card.style.transform =
-        "translateY(20px) scale(.95)";
-
-
-    requestAnimationFrame(function () {
-
-        card.style.transition =
-            "opacity .6s ease, transform .6s ease";
-
-        card.style.opacity = "1";
-
-        card.style.transform =
-            "translateY(0) scale(1)";
-
-    });
-
-}
-
-
-// ========================================
-// PHOTO VIEWER
-// ========================================
-
-const viewer =
-    document.getElementById("photoViewer");
-
-const viewerImage =
-    document.getElementById("viewerImage");
-
-
-function openPhoto(imageURL) {
-
-    viewerImage.src = imageURL;
-
-    viewer.classList.add("show");
-
-}
-
-
-document
-    .getElementById("closeViewer")
-    .addEventListener("click", closePhotoViewer);
-
-
-function closePhotoViewer() {
-
-    viewer.classList.remove("show");
-
-    viewerImage.src = "";
-
-}
-
-
-viewer.addEventListener(
-    "click",
-    function (event) {
-
-        if (event.target === viewer) {
-
-            closePhotoViewer();
-
-        }
-
-    }
-);
-
-
-// ESC closes photo viewer
-document.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (
-            event.key === "Escape" &&
-            viewer.classList.contains("show")
-        ) {
-
-            closePhotoViewer();
-
-        }
-
-    }
-);
 
 
 // ========================================================
@@ -993,14 +795,6 @@ musicButton.addEventListener(
 document.addEventListener(
     "keydown",
     function (event) {
-
-        // ESC = close photo
-        if (event.key === "Escape") {
-
-            closePhotoViewer();
-
-        }
-
 
         // Space = music pause/play
         if (
