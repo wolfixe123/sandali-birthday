@@ -1768,6 +1768,144 @@ p {
 
 
 /* =========================================================
+   MEMORY CARDS (Remember When...)
+========================================================= */
+
+.memory-cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(260px, 1fr)
+        );
+
+    gap: 24px;
+
+    max-width: 950px;
+
+    margin: 0 auto 20px;
+}
+
+.memory-card {
+
+    position: relative;
+
+    padding: 30px 26px;
+
+    border-radius: 22px;
+
+    text-align: left;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.09),
+            rgba(255,255,255,0.03)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,0.15);
+
+    backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 20px 55px
+        rgba(0,0,0,0.35);
+
+    animation:
+        photoAppear
+        0.7s ease;
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.memory-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    box-shadow:
+        0 25px 65px
+        rgba(255,80,190,0.2);
+}
+
+.memory-emoji {
+
+    font-size: 34px;
+
+    margin-bottom: 14px;
+
+    filter:
+        drop-shadow(
+            0 0 12px
+            rgba(255,150,210,0.4)
+        );
+}
+
+.memory-card h3 {
+
+    font-size: 20px;
+
+    color:
+        #ffb9df;
+
+    margin-bottom: 12px;
+
+    text-shadow:
+        0 0 15px
+        rgba(255,100,190,0.25);
+}
+
+.memory-card p {
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    color:
+        #f0d9ea;
+}
+
+
+@media (max-width: 600px) {
+
+    .memory-cards {
+
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .memory-card {
+
+        padding: 24px 20px;
+    }
+
+    .memory-emoji {
+
+        font-size: 28px;
+    }
+
+    .memory-card h3 {
+
+        font-size: 18px;
+    }
+
+    .memory-card p {
+
+        font-size: 14px;
+    }
+
+}
+
+
+/* =========================================================
    REDUCED MOTION
 ========================================================= */
 
