@@ -13,7 +13,13 @@ import {
     doc,
     setDoc,
     getDoc,
-    onSnapshot
+    onSnapshot,
+    collection,
+    addDoc,
+    query,
+    orderBy,
+    limit,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
 
@@ -35,6 +41,10 @@ const db = getFirestore(app);
 // Everything for the site lives in one document:
 // collection "site", document "content"
 const contentRef = doc(db, "site", "content");
+
+// Every login attempt gets its own record here,
+// so Wolfixe can see who has visited and when.
+const visitorsRef = collection(db, "visitors");
 
 
 // ========================================
@@ -111,6 +121,59 @@ window.cloudListen = function (callback) {
             callback(snap.data());
 
         }
+
+    });
+
+};
+
+
+// ========================================
+// VISITOR LOG
+// ========================================
+
+// Records one login attempt (any username)
+window.logVisitor = async function (name) {
+
+    try {
+
+        await addDoc(visitorsRef, {
+            name: name,
+            timestamp: serverTimestamp()
+        });
+
+        return true;
+
+    } catch (error) {
+
+        console.log("Visitor log failed:", error);
+
+        return false;
+
+    }
+
+};
+
+
+// Live list of the most recent logins, newest first
+window.listenVisitors = function (callback) {
+
+    const visitorsQuery = query(
+        visitorsRef,
+        orderBy("timestamp", "desc"),
+        limit(50)
+    );
+
+    onSnapshot(visitorsQuery, function (snapshot) {
+
+        const list = [];
+
+        snapshot.forEach(function (docSnap) {
+
+            list.push(docSnap.data());
+
+        });
+
+        callback(list);
 
     });
 
