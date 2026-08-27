@@ -56,6 +56,14 @@ function login() {
     currentUser = username;
 
 
+    // Record this login so Wolfixe can see who visited
+    if (typeof window.logVisitor === "function") {
+
+        window.logVisitor(username);
+
+    }
+
+
     // ========================================
     // WOLFIXE = EDITOR
     // ========================================
@@ -117,6 +125,12 @@ function enableEditMode() {
     musicControls.classList.remove("hidden");
 
 
+    // Show the visitor log (Wolfixe only)
+    document
+        .getElementById("visitorLogButton")
+        .classList.remove("hidden");
+
+
     // Turn on the global "edit anywhere" system
     setEditableElementsState(true);
 
@@ -149,6 +163,16 @@ function disableEditMode() {
 
     // Music control can remain visible
     musicControls.classList.remove("hidden");
+
+
+    // Hide the visitor log (viewers can't see it)
+    document
+        .getElementById("visitorLogButton")
+        .classList.add("hidden");
+
+    document
+        .getElementById("visitorLogPanel")
+        .classList.add("hidden");
 
 
     // Turn off the global "edit anywhere" system
@@ -565,6 +589,114 @@ floatingSaveIcon.addEventListener(
 
     }
 );
+
+
+// ========================================================
+// VISITOR LOG (Wolfixe only)
+// Shows everyone who has logged in, newest first,
+// updating live as new people log in.
+// ========================================================
+
+const visitorLogButton =
+    document.getElementById("visitorLogButton");
+
+const visitorLogPanel =
+    document.getElementById("visitorLogPanel");
+
+const visitorLogList =
+    document.getElementById("visitorLogList");
+
+
+visitorLogButton.addEventListener(
+    "click",
+    function () {
+
+        visitorLogPanel.classList.toggle("hidden");
+
+    }
+);
+
+
+document
+    .getElementById("closeVisitorLog")
+    .addEventListener("click", function () {
+
+        visitorLogPanel.classList.add("hidden");
+
+    });
+
+
+function renderVisitorList(list) {
+
+    if (!list || list.length === 0) {
+
+        visitorLogList.innerHTML =
+            '<p class="visitor-log-empty">No visits yet.</p>';
+
+        return;
+
+    }
+
+
+    visitorLogList.innerHTML = "";
+
+
+    list.forEach(function (entry) {
+
+        const item =
+            document.createElement("div");
+
+        item.className = "visitor-log-item";
+
+
+        const nameEl =
+            document.createElement("span");
+
+        nameEl.className = "visitor-log-name";
+
+        nameEl.innerText =
+            entry.name || "Unknown";
+
+
+        const timeEl =
+            document.createElement("span");
+
+        timeEl.className = "visitor-log-time";
+
+        if (
+            entry.timestamp &&
+            typeof entry.timestamp.toDate === "function"
+        ) {
+
+            timeEl.innerText =
+                entry.timestamp
+                    .toDate()
+                    .toLocaleString();
+
+        } else {
+
+            timeEl.innerText = "just now";
+
+        }
+
+
+        item.appendChild(nameEl);
+
+        item.appendChild(timeEl);
+
+
+        visitorLogList.appendChild(item);
+
+    });
+
+}
+
+
+if (typeof window.listenVisitors === "function") {
+
+    window.listenVisitors(renderVisitorList);
+
+}
 
 
 // ========================================
