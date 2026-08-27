@@ -155,47 +155,98 @@
 
             <span class="editable" data-edit-key="memoriesNum">01</span>
 
-            <h1 class="editable" data-edit-key="memoriesTitle">Our Memories</h1>
+            <h1 class="editable" data-edit-key="memoriesTitle">Remember When... 💭</h1>
 
             <p class="editable" data-edit-key="memoriesSubtitle">
-                Things I don't want to forget...
+                The good, the bad, and the ridiculous...
             </p>
 
         </div>
 
 
-        <!-- UPLOAD -->
+        <!-- MEMORY CARDS -->
 
-        <label
-            for="photoInput"
-            class="upload-box"
-            id="photoUploadBox"
-        >
+        <div class="memory-cards">
 
-            <div class="upload-icon">
-                ＋
+            <div class="memory-card">
+
+                <div class="memory-emoji">😂😭</div>
+
+                <h3 class="editable" data-edit-key="memory1Title">
+                    That One Time...
+                </h3>
+
+                <p class="editable" data-edit-key="memory1Text">
+                    මතකද අර දවසේ අපි දෙන්නම
+                    හිනා ගිහින් අන්තිමට
+                    කවුරුත් හිනාවෙන්නම
+                    හේතුවක් අමතක උනා?
+                    ඒ දවස තමයි හොඳම දවස්
+                    එකක් වුනේ.
+                </p>
+
             </div>
 
-            <strong>
-                Click to Upload Photos
-            </strong>
 
-            <small>
-                Select multiple photos
-            </small>
+            <div class="memory-card">
 
-        </label>
+                <div class="memory-emoji">😤💕</div>
 
-        <input
-            type="file"
-            id="photoInput"
-            accept="image/*"
-            multiple
-            hidden
-        >
+                <h3 class="editable" data-edit-key="memory2Title">
+                    The Silly Argument
+                </h3>
+
+                <p class="editable" data-edit-key="memory2Text">
+                    කිසිම හේතුවක් නැති දෙයකට
+                    අපි දෙන්නම කේන්ති ගිය
+                    දවසක් මතකද? අන්තිමට
+                    දෙන්නම හිනාවෙලා
+                    "අපි මොකටද කේන්ති ගියේ"
+                    කියලා අහගත්තා.
+                </p>
+
+            </div>
 
 
-        <div id="gallery" class="gallery"></div>
+            <div class="memory-card">
+
+                <div class="memory-emoji">🥲🎈</div>
+
+                <h3 class="editable" data-edit-key="memory3Title">
+                    Missing You Already
+                </h3>
+
+                <p class="editable" data-edit-key="memory3Text">
+                    Funny කථාවක් නෙමෙයි,
+                    ඒත් ඇත්ත එකක්:
+                    ඔයා ළඟ නැති වෙලාවට
+                    හැමදාම මට පොඩ්ඩක්
+                    හිස් හැඟීමක් දැනෙනවා.
+                </p>
+
+            </div>
+
+
+            <div class="memory-card">
+
+                <div class="memory-emoji">😅🤦</div>
+
+                <h3 class="editable" data-edit-key="memory4Title">
+                    My Bad Habit
+                </h3>
+
+                <p class="editable" data-edit-key="memory4Text">
+                    මම කොච්චර try කළත්
+                    කවදාවත් වේලාවට එන්නේ
+                    නැති එක ගැන ඔයා
+                    තාම mad. Sorry, ඒත්
+                    මම එහෙමම වෙනස්
+                    වෙන්නේ නැති කෙනෙක්.
+                </p>
+
+            </div>
+
+        </div>
 
 
         <button id="letterButton" class="main-button">
@@ -393,21 +444,6 @@
     </div>
 
 </section>
-
-
-<!-- ================================
-     PHOTO VIEWER
-================================ -->
-
-<div id="photoViewer" class="photo-viewer">
-
-    <button id="closeViewer" class="close-viewer">
-        ×
-    </button>
-
-    <img id="viewerImage" src="" alt="Photo">
-
-</div>
 
 
 <script type="module" src="firebase-init.js"></script>
